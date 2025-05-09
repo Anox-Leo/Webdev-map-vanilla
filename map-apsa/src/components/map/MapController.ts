@@ -6,7 +6,7 @@ export class MapController {
   private minScale: number = 0.5;
   private maxScale: number = 5.0;
   private zoomStep: number = 0.1;
-  private rotateX: number = 0; // Degré d'inclinaison de la carte
+  private rotateX: number = 40; // Degré d'inclinaison de la carte
   
   // État du drag & drop
   private isDragging: boolean = false;
