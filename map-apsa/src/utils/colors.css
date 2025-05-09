@@ -1,0 +1,13 @@
+:root {
+  /* Couleur Principale */
+  --color-primary: #14C78B;
+  
+  /* Couleur Secondaire */
+  --color-secondary: #1C3238;
+  
+  /* Couleur Neutre */
+  --color-neutral: #F8FAE5;
+  
+  /* Couleur Sémantique */
+  --color-semantic: #FF5A33;
+} 
