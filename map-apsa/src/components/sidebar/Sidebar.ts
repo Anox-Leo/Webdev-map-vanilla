@@ -2,14 +2,13 @@ import './Sidebar.css';
 
 export class Sidebar {
   private container: HTMLElement;
-  private template = `
+  private sidebarTemplate = `
     <div class="sidebar" id="sidebar">
       <div class="sidebar-header">
         <h1>APSA Carte Interactive</h1>
       </div>
       
       <div class="sidebar-content" id="sidebar-content">
-        <!-- Le contenu dynamique sera injecté ici -->
         <p>Sélectionnez une région sur la carte pour afficher plus d'informations.</p>
       </div>
       
@@ -19,29 +18,42 @@ export class Sidebar {
       </div>
     </div>
   `;
+  
+  private toggleButtonTemplate = `
+    <div class="toggle-button-container" id="toggle-button-container">
+      <button class="sidebar-toggle" id="sidebar-toggle" title="Replier/Déplier le panneau"></button>
+    </div>
+  `;
+  
   private sidebarElement: HTMLElement | null = null;
+  private toggleButtonElement: HTMLElement | null = null;
+  private isCollapsed: boolean = false;
 
   constructor(container: HTMLElement) {
     this.container = container;
     this.render();
     this.setupEventListeners();
+    this.restoreCollapseState();
   }
 
   private render(): void {
-    // On crée un élément div pour contenir le sidebar
     const sidebarWrapper = document.createElement('div');
-    sidebarWrapper.innerHTML = this.template;
+    sidebarWrapper.innerHTML = this.sidebarTemplate;
     
-    // On ajoute notre élément au conteneur
     this.container.appendChild(sidebarWrapper.firstElementChild as HTMLElement);
-    
-    // On stocke une référence à notre élément sidebar
     this.sidebarElement = document.getElementById('sidebar');
+    
+    const toggleButtonWrapper = document.createElement('div');
+    toggleButtonWrapper.innerHTML = this.toggleButtonTemplate;
+    
+    this.container.appendChild(toggleButtonWrapper.firstElementChild as HTMLElement);
+    this.toggleButtonElement = document.getElementById('toggle-button-container');
   }
 
   private setupEventListeners(): void {
     const resetButton = document.getElementById('sidebar-reset');
     const actionButton = document.getElementById('sidebar-action');
+    const toggleButton = document.getElementById('sidebar-toggle');
     
     if (resetButton) {
       resetButton.addEventListener('click', () => {
@@ -54,19 +66,58 @@ export class Sidebar {
         this.performAction();
       });
     }
+    
+    if (toggleButton) {
+      toggleButton.addEventListener('click', (e) => {
+        e.stopPropagation();
+        this.toggleSidebar();
+      });
+    }
 
-    // Pour les appareils mobiles - gestion du menu
     const mediaQuery = window.matchMedia('(max-width: 480px)');
     this.handleResponsiveLayout(mediaQuery);
     mediaQuery.addEventListener('change', (e) => this.handleResponsiveLayout(e));
+    
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !this.isCollapsed) {
+        this.toggleSidebar();
+      }
+    });
+  }
+  
+  private toggleSidebar(): void {
+    if (!this.sidebarElement) return;
+    
+    this.isCollapsed = !this.isCollapsed;
+    
+    if (this.isCollapsed) {
+      this.sidebarElement.classList.add('collapsed');
+    } else {
+      this.sidebarElement.classList.remove('collapsed');
+    }
+    
+    localStorage.setItem('sidebar_collapsed', this.isCollapsed.toString());
+    window.dispatchEvent(new Event('resize'));
+  }
+  
+  private restoreCollapseState(): void {
+    const savedState = localStorage.getItem('sidebar_collapsed');
+    
+    if (savedState === 'true') {
+      this.isCollapsed = true;
+      this.sidebarElement?.classList.add('collapsed');
+    }
   }
 
   private handleResponsiveLayout(e: MediaQueryListEvent | MediaQueryList): void {
     if (e.matches) {
-      // Créer un bouton pour ouvrir/fermer le menu sur mobile si nécessaire
-      if (!document.getElementById('sidebar-toggle')) {
+      if (this.toggleButtonElement) {
+        this.toggleButtonElement.style.display = 'none';
+      }
+      
+      if (!document.getElementById('sidebar-toggle-btn')) {
         const toggleButton = document.createElement('button');
-        toggleButton.id = 'sidebar-toggle';
+        toggleButton.id = 'sidebar-toggle-btn';
         toggleButton.className = 'sidebar-toggle-btn';
         toggleButton.innerHTML = '☰';
         
@@ -78,17 +129,17 @@ export class Sidebar {
         document.body.appendChild(toggleButton);
       }
     } else {
-      // Supprimer le bouton si on est en mode desktop
-      const toggleButton = document.getElementById('sidebar-toggle');
+      if (this.toggleButtonElement) {
+        this.toggleButtonElement.style.display = '';
+      }
+      
+      const toggleButton = document.getElementById('sidebar-toggle-btn');
       if (toggleButton) {
         toggleButton.remove();
       }
     }
   }
 
-  /**
-   * Met à jour le contenu du panneau latéral
-   */
   public updateContent(content: string): void {
     const contentContainer = document.getElementById('sidebar-content');
     if (contentContainer) {
@@ -96,16 +147,10 @@ export class Sidebar {
     }
   }
 
-  /**
-   * Réinitialise le contenu
-   */
   private resetContent(): void {
     this.updateContent('<p>Sélectionnez une région sur la carte pour afficher plus d\'informations.</p>');
   }
 
-  /**
-   * Exécute l'action principale
-   */
   private performAction(): void {
     // Action principale à implémenter
   }

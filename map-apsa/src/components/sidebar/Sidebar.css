@@ -6,10 +6,76 @@
   display: flex;
   flex-direction: column;
   box-shadow: 5px 0 25px rgba(0, 0, 0, 0.4);
-  transition: width 0.3s ease;
+  transition: all 0.3s ease;
   overflow: hidden;
   position: relative;
   z-index: 10;
+}
+
+/* État replié de la sidebar */
+.sidebar.collapsed {
+  width: 0;
+  min-width: 0;
+}
+
+/* Masquer le contenu quand la sidebar est repliée */
+.sidebar.collapsed .sidebar-header,
+.sidebar.collapsed .sidebar-content,
+.sidebar.collapsed .sidebar-footer {
+  opacity: 0;
+  visibility: hidden;
+}
+
+/* Bouton de bascule externe pour plier/déplier */
+.sidebar-toggle {
+  width: 32px;
+  height: 60px;
+  background-color: var(--color-primary);
+  border: none;
+  border-radius: 0 4px 4px 0;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 4px 0 10px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.2s;
+}
+
+.sidebar-toggle:hover {
+  background-color: #10a675;
+}
+
+.sidebar-toggle::before {
+  content: '<';
+  font-size: 14px;
+  transition: transform 0.3s;
+}
+
+/* Animation de la flèche quand la sidebar est repliée */
+.sidebar.collapsed ~ .toggle-button-container .sidebar-toggle::before {
+  transform: rotate(180deg);
+}
+
+/* Animation au survol quand la sidebar est repliée */
+.sidebar.collapsed ~ .toggle-button-container .sidebar-toggle:hover::before {
+  animation: arrowBounce 1s infinite;
+}
+
+/* Effet de brillance (glow) au survol quand la sidebar est repliée */
+.sidebar.collapsed ~ .toggle-button-container .sidebar-toggle:hover {
+  box-shadow: 0 0 10px var(--color-primary), 0 0 15px rgba(20, 199, 139, 0.5);
+  transition: all 0.3s ease;
+}
+
+@keyframes arrowBounce {
+  0%, 100% {
+    transform: rotate(180deg) translateX(0);
+  }
+  50% {
+    transform: rotate(180deg) translateX(3px);
+  }
 }
 
 .sidebar-header {
@@ -18,6 +84,7 @@
   color: white;
   text-align: center;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: opacity 0.2s, visibility 0.2s;
 }
 
 .sidebar-header h1 {
@@ -31,6 +98,7 @@
   padding: 1rem;
   overflow-y: auto;
   scrollbar-width: thin;
+  transition: opacity 0.2s, visibility 0.2s;
 }
 
 .sidebar-content::-webkit-scrollbar {
@@ -51,6 +119,7 @@
   display: flex;
   justify-content: space-between;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
+  transition: opacity 0.2s, visibility 0.2s;
 }
 
 .action-btn {
@@ -106,27 +175,37 @@
   .sidebar {
     width: 40%;
   }
+  
+  .sidebar.collapsed {
+    width: 0;
+    min-width: 0;
+  }
 }
 
 @media screen and (max-width: 768px) {
   .sidebar {
     width: 50%;
   }
+  
+  .sidebar.collapsed {
+    width: 0;
+    min-width: 0;
+  }
 }
 
 @media screen and (max-width: 480px) {
   .sidebar {
     width: 80%;
-    position: absolute;
-    left: 0;
-    z-index: 100;
-    transform: translateX(-100%);
-    transition: transform 0.3s ease;
   }
   
   .sidebar.open {
     transform: translateX(0);
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+  }
+  
+  .sidebar.collapsed {
+    width: 0;
+    min-width: 0;
   }
 
   .sidebar-toggle-btn {

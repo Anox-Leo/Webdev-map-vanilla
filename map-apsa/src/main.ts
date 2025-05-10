@@ -16,10 +16,10 @@ function initApp() {
   
   if (mainContent) {
     // Initialisation du panneau latéral
-    const sidebar = new Sidebar(mainContent)
+    new Sidebar(mainContent)
     
     // Initialisation de la carte
-    const map = new Map(mainContent)
+    new Map(mainContent)
   } else {
     // Le conteneur principal n'a pas été trouvé
   }

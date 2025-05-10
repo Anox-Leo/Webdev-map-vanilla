@@ -34,22 +34,68 @@ body {
 #main-content {
   width: 100%;
   height: 100%;
-  display: flex;
-  flex-direction: row;
   position: relative;
   overflow: hidden;
 }
 
-/* Assure que les composants enfants s'empilent correctement */
-#main-content > * {
-  position: relative;
+/* Utilisation d'une approche basée sur position absolue */
+.sidebar {
+  position: absolute !important;
+  top: 0;
+  left: 0;
+  height: 100%;
+  z-index: 20;
 }
 
 .map-container {
-  flex: 1;
-  height: 100%;
-  position: relative;
-  min-width: 0; /* Pour éviter que la carte ne déborde */
+  position: absolute !important;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 5;
+  transition: all 0.3s ease;
+}
+
+/* Ajustement de la position du conteneur de la carte quand la sidebar est ouverte */
+.sidebar:not(.collapsed) ~ .map-container {
+  left: 30%;
+}
+
+/* Bouton de toggle directement dans le conteneur principal */
+.toggle-button-container {
+  position: absolute;
+  top: 50%;
+  left: 30%;
+  width: 32px;
+  height: 60px;
+  transform: translateY(-50%);
+  z-index: 100; /* Très haut z-index pour être sûr qu'il est visible */
+  transition: left 0.3s ease;
+}
+
+.sidebar.collapsed ~ .toggle-button-container {
+  left: 0px;
+}
+
+@media (max-width: 1024px) {
+  .sidebar:not(.collapsed) ~ .map-container {
+    left: 40%;
+  }
+  
+  .toggle-button-container {
+    left: 40%;
+  }
+}
+
+@media (max-width: 768px) {
+  .sidebar:not(.collapsed) ~ .map-container {
+    left: 50%;
+  }
+  
+  .toggle-button-container {
+    left: 50%;
+  }
 }
 
 /* Mode clair */
@@ -64,18 +110,24 @@ body {
 }
 
 /* Responsive layout pour les mobiles */
-@media (max-width: 768px) {
-  .map-container {
-    width: 100%;
-  }
-
-  #main-content {
-    flex-direction: column;
+@media (max-width: 480px) {
+  .sidebar {
+    transform: translateX(-100%);
   }
   
-  .sidebar {
-    width: 100% !important; /* Force la largeur en mode mobile */
-    height: auto !important;
-    min-height: 30vh;
+  .sidebar.open {
+    transform: translateX(0);
+  }
+  
+  .sidebar:not(.collapsed) ~ .map-container {
+    left: 0;
+  }
+  
+  .sidebar.open ~ .map-container {
+    left: 80%;
+  }
+  
+  .toggle-button-container {
+    display: none; /* Masquer le bouton de toggle sur mobile */
   }
 }
