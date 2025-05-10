@@ -30,7 +30,7 @@
   max-width: 90%;
   max-height: 90%;
   object-fit: contain;
-  transition: transform 0.1s ease;
+  transition: transform 0.2s ease-out;
   pointer-events: none;
   transform: rotateX(15deg); /* Légère inclinaison pour l'effet 3D */
   transform-style: preserve-3d;
@@ -45,10 +45,22 @@
   transition: none;
 }
 
+/* Désactiver la transition pendant la rotation active */
+.compass-handle.rotating + .map-svg,
+.map-view .compass-handle.rotating ~ .map-svg {
+  transition: none;
+}
+
+/* Désactiver la transition pendant la rotation active */
+.map-svg.rotating {
+  transition: none !important;
+}
+
 /* Contrôles de la carte */
 .map-controls {
   position: absolute;
   right: 20px;
+  top: 20px;
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -103,9 +115,175 @@
   color: #555;
 }
 
-/* Placement des contrôles */
-.map-controls {
+/* Conteneur de la boussole */
+.compass-container {
+  position: absolute;
+  left: 20px;
   top: 20px;
+  z-index: 10;
+}
+
+/* Cercle de la boussole */
+.compass-circle {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+/* Directions de la boussole */
+.compass-directions {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+}
+
+.compass-direction {
+  position: absolute;
+  font-weight: bold;
+  font-size: 14px;
+  color: #555;
+  text-align: center;
+  transition: color 0.3s, transform 0.3s;
+}
+
+.compass-direction.active {
+  color: #3498db;
+  font-size: 16px;
+  text-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
+  transform: scale(1.2);
+}
+
+.compass-direction.north {
+  top: 5px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.compass-direction.east {
+  right: 5px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.compass-direction.south {
+  bottom: 5px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.compass-direction.west {
+  left: 5px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/* Rotateur de la boussole */
+.compass-rotator {
+  width: 80%;
+  height: 80%;
+  border-radius: 50%;
+  border: 2px dashed rgba(0, 0, 0, 0.1);
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  touch-action: none;
+}
+
+/* Ligne directionnelle de la boussole */
+.compass-line {
+  position: absolute;
+  width: 2px;
+  height: 50%;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(52, 152, 219, 0.7) 30%, rgba(52, 152, 219, 0.9));
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+/* Poignée du rotateur */
+.compass-handle {
+  width: 16px;
+  height: 16px;
+  background-color: #3498db;
+  border-radius: 50%;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  cursor: grab;
+  z-index: 3;
+  transition: background-color 0.2s, box-shadow 0.2s;
+}
+
+.compass-handle:hover {
+  background-color: #2980b9;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
+}
+
+.compass-handle:active, .compass-handle.rotating {
+  cursor: grabbing;
+  background-color: #2573a7;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+/* Centre de la boussole (bouton de réinitialisation) */
+.compass-center {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: white;
+  border: 2px solid #eaeaea;
+  position: absolute;
+  z-index: 2;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s;
+}
+
+.compass-center:hover {
+  background-color: #f0f0f0;
+}
+
+.compass-center:active {
+  background-color: #e8e8e8;
+}
+
+/* Conteneur pour le bouton d'orientation */
+.device-orientation-container {
+  position: absolute;
+  left: 20px;
+  bottom: 20px;
+  z-index: 10;
+}
+
+/* Bouton d'orientation */
+.device-orientation-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.2s, transform 0.2s;
+}
+
+.device-orientation-btn.active {
+  background-color: #3498db;
+  color: white;
+  transform: scale(1.05);
 }
 
 /* Média queries pour le responsive */
@@ -119,4 +297,47 @@
     right: 10px;
     top: 10px;
   }
+  
+  .compass-container {
+    left: 10px;
+    top: 10px;
+  }
+  
+  .compass-circle {
+    width: 80px;
+    height: 80px;
+  }
+  
+  .compass-direction {
+    font-size: 12px;
+  }
+  
+  .device-orientation-container {
+    left: 10px;
+    bottom: 10px;
+  }
+}
+
+/* Notifications */
+.map-notification {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) translateY(50px);
+  background-color: rgba(0, 0, 0, 0.7);
+  color: white;
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-size: 14px;
+  opacity: 0;
+  transition: opacity 0.3s, transform 0.3s;
+  pointer-events: none;
+  z-index: 100;
+  text-align: center;
+  max-width: 80%;
+}
+
+.map-notification.show {
+  opacity: 1;
+  transform: translate(-50%, -50%);
 } 
