@@ -29,14 +29,27 @@ body {
   margin: 0;
   padding: 0;
   display: flex;
-  justify-content: flex-end; /* Aligner le contenu à droite */
 }
 
 #main-content {
   width: 100%;
   height: 100%;
   display: flex;
-  justify-content: flex-end; /* Aligner le contenu à droite */
+  flex-direction: row;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Assure que les composants enfants s'empilent correctement */
+#main-content > * {
+  position: relative;
+}
+
+.map-container {
+  flex: 1;
+  height: 100%;
+  position: relative;
+  min-width: 0; /* Pour éviter que la carte ne déborde */
 }
 
 /* Mode clair */
@@ -54,5 +67,15 @@ body {
 @media (max-width: 768px) {
   .map-container {
     width: 100%;
+  }
+
+  #main-content {
+    flex-direction: column;
+  }
+  
+  .sidebar {
+    width: 100% !important; /* Force la largeur en mode mobile */
+    height: auto !important;
+    min-height: 30vh;
   }
 }

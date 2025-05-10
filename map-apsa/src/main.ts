@@ -1,5 +1,6 @@
 import './style.css'
 import { Map } from './components/map/Map'
+import { Sidebar } from './components/sidebar/Sidebar'
 import { DomUtils } from './utils/DomUtils'
 
 /**
@@ -14,10 +15,13 @@ function initApp() {
   const mainContent = DomUtils.getElementById<HTMLDivElement>('main-content')
   
   if (mainContent) {
-    // Initialisation de la carte uniquement
-    new Map(mainContent)
+    // Initialisation du panneau latéral
+    const sidebar = new Sidebar(mainContent)
+    
+    // Initialisation de la carte
+    const map = new Map(mainContent)
   } else {
-    console.error('Impossible de trouver le conteneur principal')
+    // Le conteneur principal n'a pas été trouvé
   }
 }
 

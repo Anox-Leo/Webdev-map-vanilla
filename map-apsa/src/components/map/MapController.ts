@@ -36,7 +36,7 @@ export class MapController {
 
     // Vérifier que tous les éléments sont présents
     if (!this.mapContainer || !this.mapView || !this.mapSvg) {
-      console.error('Certains éléments de la carte n\'ont pas été trouvés');
+      // Les éléments requis n'ont pas été trouvés
       return;
     }
 

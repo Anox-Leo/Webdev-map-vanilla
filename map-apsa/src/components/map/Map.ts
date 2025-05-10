@@ -51,6 +51,11 @@ export class Map {
   }
 
   private render(): void {
-    this.container.innerHTML = this.template;
+    // On crée un élément div pour contenir la carte
+    const mapWrapper = document.createElement('div');
+    mapWrapper.innerHTML = this.template;
+    
+    // On ajoute notre élément au conteneur
+    this.container.appendChild(mapWrapper.firstElementChild as HTMLElement);
   }
 } 
