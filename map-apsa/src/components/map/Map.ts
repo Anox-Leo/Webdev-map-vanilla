@@ -11,6 +11,24 @@ export class Map {
           Votre navigateur ne prend pas en charge les objets SVG
         </object>
       </div>
+      
+      <!-- Boussole circulaire -->
+      <div class="compass-container">
+        <div class="compass-circle">
+          <div class="compass-directions">
+            <span class="compass-direction north">N</span>
+            <span class="compass-direction east">E</span>
+            <span class="compass-direction south">S</span>
+            <span class="compass-direction west">O</span>
+          </div>
+          <div class="compass-rotator" id="compass-rotator">
+            <div class="compass-handle"></div>
+            <div class="compass-line"></div>
+          </div>
+          <div class="compass-center" id="compass-reset"></div>
+        </div>
+      </div>
+      
       <div class="map-controls">
         <div class="zoom-controls">
           <button id="zoom-in" class="control-btn" title="Zoom avant">+</button>
