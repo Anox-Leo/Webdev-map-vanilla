@@ -12,13 +12,11 @@
   z-index: 10;
 }
 
-/* État replié de la sidebar */
 .sidebar.collapsed {
   width: 0;
   min-width: 0;
 }
 
-/* Masquer le contenu quand la sidebar est repliée */
 .sidebar.collapsed .sidebar-header,
 .sidebar.collapsed .sidebar-content,
 .sidebar.collapsed .sidebar-footer {
@@ -26,7 +24,6 @@
   visibility: hidden;
 }
 
-/* Bouton de bascule externe pour plier/déplier */
 .sidebar-toggle {
   width: 32px;
   height: 60px;
@@ -53,17 +50,14 @@
   transition: transform 0.3s;
 }
 
-/* Animation de la flèche quand la sidebar est repliée */
 .sidebar.collapsed ~ .toggle-button-container .sidebar-toggle::before {
   transform: rotate(180deg);
 }
 
-/* Animation au survol quand la sidebar est repliée */
 .sidebar.collapsed ~ .toggle-button-container .sidebar-toggle:hover::before {
   animation: arrowBounce 1s infinite;
 }
 
-/* Effet de brillance (glow) au survol quand la sidebar est repliée */
 .sidebar.collapsed ~ .toggle-button-container .sidebar-toggle:hover {
   box-shadow: 0 0 10px var(--color-primary), 0 0 15px rgba(20, 199, 139, 0.5);
   transition: all 0.3s ease;
@@ -147,7 +141,6 @@
   background-color: rgba(20, 199, 139, 0.1);
 }
 
-/* Bouton de basculement mobile */
 .sidebar-toggle-btn {
   display: none;
   position: fixed;
@@ -170,7 +163,6 @@
   background-color: #10a675;
 }
 
-/* Responsive design */
 @media screen and (max-width: 1024px) {
   .sidebar {
     width: 40%;

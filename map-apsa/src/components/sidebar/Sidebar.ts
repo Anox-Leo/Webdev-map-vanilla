@@ -1,4 +1,8 @@
 import './Sidebar.css';
+import '../trails/Trails.css';
+import { TrailsList } from '../trails/TrailsList';
+import { getTrails } from '../trails/TrailsData';
+import { Trail } from '../trails/TrailCard';
 
 export class Sidebar {
   private container: HTMLElement;
@@ -9,7 +13,6 @@ export class Sidebar {
       </div>
       
       <div class="sidebar-content" id="sidebar-content">
-        <p>Sélectionnez une région sur la carte pour afficher plus d'informations.</p>
       </div>
       
       <div class="sidebar-footer">
@@ -28,12 +31,14 @@ export class Sidebar {
   private sidebarElement: HTMLElement | null = null;
   private toggleButtonElement: HTMLElement | null = null;
   private isCollapsed: boolean = false;
+  private trailsList: TrailsList | null = null;
 
   constructor(container: HTMLElement) {
     this.container = container;
     this.render();
     this.setupEventListeners();
     this.restoreCollapseState();
+    this.loadTrails();
   }
 
   private render(): void {
@@ -148,10 +153,39 @@ export class Sidebar {
   }
 
   private resetContent(): void {
-    this.updateContent('<p>Sélectionnez une région sur la carte pour afficher plus d\'informations.</p>');
+    this.loadTrails();
   }
 
   private performAction(): void {
-    // Action principale à implémenter
+    const selectedTrail = this.trailsList?.getSelectedTrail();
+    
+    if (selectedTrail) {
+      console.log("Action sur le parcours:", selectedTrail.name);
+    }
+  }
+
+  private async loadTrails(): Promise<void> {
+    const contentContainer = document.getElementById('sidebar-content');
+    if (!contentContainer) return;
+    
+    contentContainer.innerHTML = '<div class="loading">Chargement des parcours...</div>';
+    
+    try {
+      const trails = await getTrails();
+      
+      contentContainer.innerHTML = '';
+      
+      this.trailsList = new TrailsList(contentContainer, trails);
+      
+      this.trailsList.setTrailSelectHandler((trail: Trail) => {
+        this.handleTrailSelection(trail);
+      });
+    } catch (error) {
+      contentContainer.innerHTML = '<div class="error">Erreur lors du chargement des parcours.</div>';
+    }
+  }
+  
+  private handleTrailSelection(trail: Trail): void {
+    console.log(`Parcours sélectionné: ${trail.name}`);
   }
 } 

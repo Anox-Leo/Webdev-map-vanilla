@@ -1,4 +1,3 @@
-/* Conteneur principal de la carte */
 .map-container {
   height: 100vh;
   overflow: hidden;
@@ -9,7 +8,6 @@
   background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
 }
 
-/* Vue de la carte (conteneur du SVG) */
 .map-view {
   width: 100%;
   height: 100%;
@@ -22,19 +20,16 @@
   perspective: 1000px;
 }
 
-/* La carte SVG elle-même */
 .map-svg {
   max-width: 90%;
   max-height: 90%;
   object-fit: contain;
   transition: transform 0.2s ease-out;
   pointer-events: none;
-  transform: rotateX(15deg); /* Légère inclinaison pour l'effet 3D */
   transform-style: preserve-3d;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
 }
 
-/* Pendant le déplacement */
 .map-view.dragging {
   cursor: grabbing;
 }
@@ -42,18 +37,15 @@
   transition: none;
 }
 
-/* Désactiver la transition pendant la rotation active */
 .compass-handle.rotating + .map-svg,
 .map-view .compass-handle.rotating ~ .map-svg {
   transition: none;
 }
 
-/* Désactiver la transition pendant la rotation active */
 .map-svg.rotating {
   transition: none !important;
 }
 
-/* Contrôles de la carte */
 .map-controls {
   position: absolute;
   right: 20px;
@@ -64,7 +56,6 @@
   z-index: 10;
 }
 
-/* Contrôles de zoom */
 .zoom-controls {
   display: flex;
   flex-direction: column;
@@ -74,7 +65,6 @@
   overflow: hidden;
 }
 
-/* Boutons de contrôle */
 .control-btn {
   width: 40px;
   height: 40px;
@@ -99,12 +89,10 @@
   background-color: #e8e8e8;
 }
 
-/* Séparateur entre les boutons de zoom */
 .zoom-controls .control-btn:not(:last-child) {
   border-bottom: 1px solid #eaeaea;
 }
 
-/* Bouton de réinitialisation */
 .reset-btn {
   background-color: white;
   border-radius: 8px;
@@ -112,7 +100,6 @@
   color: #555;
 }
 
-/* Conteneur de la boussole */
 .compass-container {
   position: absolute;
   left: 20px;
@@ -120,7 +107,6 @@
   z-index: 10;
 }
 
-/* Cercle de la boussole */
 .compass-circle {
   width: 100px;
   height: 100px;
@@ -134,7 +120,6 @@
   cursor: pointer;
 }
 
-/* Directions de la boussole */
 .compass-directions {
   width: 100%;
   height: 100%;
@@ -184,7 +169,6 @@
   transform: translateY(-50%);
 }
 
-/* Rotateur de la boussole */
 .compass-rotator {
   width: 80%;
   height: 80%;
@@ -197,7 +181,6 @@
   touch-action: none;
 }
 
-/* Ligne directionnelle de la boussole */
 .compass-line {
   position: absolute;
   width: 2px;
@@ -209,7 +192,6 @@
   pointer-events: none;
 }
 
-/* Poignée du rotateur */
 .compass-handle {
   width: 16px;
   height: 16px;
@@ -236,7 +218,6 @@
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
 }
 
-/* Centre de la boussole (bouton de réinitialisation) */
 .compass-center {
   width: 20px;
   height: 20px;
@@ -260,7 +241,6 @@
   background-color: #e8e8e8;
 }
 
-/* Conteneur pour le bouton d'orientation */
 .device-orientation-container {
   position: absolute;
   left: 20px;
@@ -268,7 +248,6 @@
   z-index: 10;
 }
 
-/* Bouton d'orientation */
 .device-orientation-btn {
   width: 40px;
   height: 40px;
@@ -283,7 +262,6 @@
   transform: scale(1.05);
 }
 
-/* Média queries pour le responsive */
 @media (max-width: 768px) {
   .map-container {
     width: 100%;
@@ -315,7 +293,6 @@
   }
 }
 
-/* Notifications */
 .map-notification {
   position: absolute;
   top: 50%;
