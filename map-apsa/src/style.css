@@ -68,6 +68,7 @@ body {
   height: 60px;
   transform: translateY(-50%);
   transition: left 0.3s ease;
+  z-index: 30;
 }
 
 .sidebar.collapsed ~ .toggle-button-container {
@@ -107,10 +108,20 @@ body {
 @media (max-width: 480px) {
   .sidebar {
     transform: translateX(-100%);
+    width: 80%;
   }
   
   .sidebar.open {
     transform: translateX(0);
+  }
+  
+  .sidebar.collapsed {
+    transform: translateX(-100%);
+    width: 0;
+  }
+  
+  .sidebar.collapsed ~ .toggle-button-container {
+    left: 0px !important;
   }
   
   .sidebar:not(.collapsed) ~ .map-container {
@@ -122,5 +133,12 @@ body {
   }
   
   .toggle-button-container {
+    left: 80% !important;
+    position: fixed;
+    z-index: 50;
+  }
+  
+  .sidebar-toggle-btn {
+    display: none;
   }
 }

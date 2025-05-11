@@ -79,6 +79,16 @@
   text-align: center;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   transition: opacity 0.2s, visibility 0.2s;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.sidebar-logo {
+  max-width: 50px;
+  height: auto;
+  margin-right: 0.75rem;
 }
 
 .sidebar-header h1 {

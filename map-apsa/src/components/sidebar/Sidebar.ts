@@ -9,6 +9,7 @@ export class Sidebar {
   private sidebarTemplate = `
     <div class="sidebar" id="sidebar">
       <div class="sidebar-header">
+        <img src="/assets/images/apsa-logo.png" alt="APSA Logo" class="sidebar-logo" />
         <h1>APSA Carte Interactive</h1>
       </div>
       
@@ -97,8 +98,14 @@ export class Sidebar {
     
     if (this.isCollapsed) {
       this.sidebarElement.classList.add('collapsed');
+      this.sidebarElement.classList.remove('open');
     } else {
       this.sidebarElement.classList.remove('collapsed');
+      
+      const mediaQuery = window.matchMedia('(max-width: 480px)');
+      if (mediaQuery.matches) {
+        this.sidebarElement.classList.add('open');
+      }
     }
     
     localStorage.setItem('sidebar_collapsed', this.isCollapsed.toString());
@@ -117,24 +124,21 @@ export class Sidebar {
   private handleResponsiveLayout(e: MediaQueryListEvent | MediaQueryList): void {
     if (e.matches) {
       if (this.toggleButtonElement) {
-        this.toggleButtonElement.style.display = 'none';
+        this.toggleButtonElement.style.display = 'block';
+        this.toggleButtonElement.style.left = '0';
+        this.toggleButtonElement.style.top = '50%';
+        this.toggleButtonElement.style.position = 'fixed';
       }
       
-      if (!document.getElementById('sidebar-toggle-btn')) {
-        const toggleButton = document.createElement('button');
-        toggleButton.id = 'sidebar-toggle-btn';
-        toggleButton.className = 'sidebar-toggle-btn';
-        toggleButton.innerHTML = '☰';
-        
-        toggleButton.addEventListener('click', () => {
-          const sidebar = document.getElementById('sidebar');
-          sidebar?.classList.toggle('open');
-        });
-        
-        document.body.appendChild(toggleButton);
+      const toggleButtonMobile = document.getElementById('sidebar-toggle-btn');
+      if (toggleButtonMobile) {
+        toggleButtonMobile.remove();
       }
     } else {
       if (this.toggleButtonElement) {
+        this.toggleButtonElement.style.position = '';
+        this.toggleButtonElement.style.left = '';
+        this.toggleButtonElement.style.top = '';
         this.toggleButtonElement.style.display = '';
       }
       
