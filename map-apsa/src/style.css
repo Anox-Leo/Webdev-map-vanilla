@@ -38,7 +38,6 @@ body {
   overflow: hidden;
 }
 
-/* Utilisation d'une approche basée sur position absolue */
 .sidebar {
   position: absolute !important;
   top: 0;
@@ -57,12 +56,10 @@ body {
   transition: all 0.3s ease;
 }
 
-/* Ajustement de la position du conteneur de la carte quand la sidebar est ouverte */
 .sidebar:not(.collapsed) ~ .map-container {
   left: 30%;
 }
 
-/* Bouton de toggle directement dans le conteneur principal */
 .toggle-button-container {
   position: absolute;
   top: 50%;
@@ -70,7 +67,6 @@ body {
   width: 32px;
   height: 60px;
   transform: translateY(-50%);
-  z-index: 100; /* Très haut z-index pour être sûr qu'il est visible */
   transition: left 0.3s ease;
 }
 
@@ -98,7 +94,6 @@ body {
   }
 }
 
-/* Mode clair */
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
@@ -109,7 +104,6 @@ body {
   }
 }
 
-/* Responsive layout pour les mobiles */
 @media (max-width: 480px) {
   .sidebar {
     transform: translateX(-100%);
@@ -128,6 +122,5 @@ body {
   }
   
   .toggle-button-container {
-    display: none; /* Masquer le bouton de toggle sur mobile */
   }
 }

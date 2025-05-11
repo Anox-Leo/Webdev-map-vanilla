@@ -14,21 +14,17 @@ export class TrailsList {
   }
 
   private setupTrailsList(): void {
-    // Création du conteneur pour la liste des parcours
     const listContainer = document.createElement('div');
     listContainer.className = 'trails-container';
     
-    // Ajout du titre
     const title = document.createElement('h2');
     title.className = 'trails-title';
     title.textContent = 'Parcours disponibles';
     listContainer.appendChild(title);
     
-    // Création de la liste
     const trailsList = document.createElement('div');
     trailsList.className = 'trails-list';
     
-    // Création des cartes de parcours
     this.trails.forEach(trail => {
       const card = new TrailCard(trail);
       card.setClickHandler((selectedTrail) => {
@@ -44,7 +40,6 @@ export class TrailsList {
   }
   
   private handleTrailSelection(trail: Trail): void {
-    // Désélectionner la carte actuellement sélectionnée
     if (this.selectedTrailId) {
       const previousCard = this.cards.find(card => 
         card.isCardSelected()
@@ -55,7 +50,6 @@ export class TrailsList {
       }
     }
     
-    // Sélectionner la nouvelle carte
     const currentCard = this.cards.find(card => 
       card.render().getAttribute('data-id') === trail.id
     );
@@ -64,7 +58,6 @@ export class TrailsList {
       currentCard.select();
       this.selectedTrailId = trail.id;
       
-      // Appeler le gestionnaire d'événements si défini
       if (this.trailSelectHandler) {
         this.trailSelectHandler(trail);
       }
@@ -76,7 +69,6 @@ export class TrailsList {
     this.cards = [];
     this.selectedTrailId = null;
     
-    // Vider le conteneur et recréer la liste
     this.container.innerHTML = '';
     this.setupTrailsList();
   }

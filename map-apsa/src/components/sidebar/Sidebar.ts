@@ -1,8 +1,8 @@
 import './Sidebar.css';
-import './Trails.css';
-import { TrailsList } from './TrailsList';
-import { getTrails } from './TrailsData';
-import { Trail } from './TrailCard';
+import '../trails/Trails.css';
+import { TrailsList } from '../trails/TrailsList';
+import { getTrails } from '../trails/TrailsData';
+import { Trail } from '../trails/TrailCard';
 
 export class Sidebar {
   private container: HTMLElement;
@@ -13,7 +13,6 @@ export class Sidebar {
       </div>
       
       <div class="sidebar-content" id="sidebar-content">
-        <!-- Le contenu sera injecté dynamiquement -->
       </div>
       
       <div class="sidebar-footer">
@@ -154,16 +153,14 @@ export class Sidebar {
   }
 
   private resetContent(): void {
-    this.loadTrails(); // Recharge la liste des parcours
+    this.loadTrails();
   }
 
   private performAction(): void {
-    // Si un parcours est sélectionné, on pourrait effectuer une action spécifique
     const selectedTrail = this.trailsList?.getSelectedTrail();
     
     if (selectedTrail) {
       console.log("Action sur le parcours:", selectedTrail.name);
-      // Ici, on pourrait par exemple zoomer sur le parcours sur la carte
     }
   }
 
@@ -171,20 +168,15 @@ export class Sidebar {
     const contentContainer = document.getElementById('sidebar-content');
     if (!contentContainer) return;
     
-    // Afficher un message de chargement
     contentContainer.innerHTML = '<div class="loading">Chargement des parcours...</div>';
     
     try {
-      // Charger les parcours
       const trails = await getTrails();
       
-      // Vider le conteneur
       contentContainer.innerHTML = '';
       
-      // Créer et afficher la liste des parcours
       this.trailsList = new TrailsList(contentContainer, trails);
       
-      // Configurer le gestionnaire de sélection des parcours
       this.trailsList.setTrailSelectHandler((trail: Trail) => {
         this.handleTrailSelection(trail);
       });
@@ -195,6 +187,5 @@ export class Sidebar {
   
   private handleTrailSelection(trail: Trail): void {
     console.log(`Parcours sélectionné: ${trail.name}`);
-    // Ici, on pourrait mettre à jour la carte pour afficher le parcours sélectionné
   }
 } 

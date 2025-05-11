@@ -23,21 +23,16 @@ export class TrailCard {
     card.className = 'trail-card';
     card.setAttribute('data-id', this.trail.id);
     
-    // Obtenir le texte et la classe CSS pour la difficulté
     const difficultyInfo = this.getDifficultyInfo(this.trail.difficulty);
 
-    // Nouvelle structure: Titre en haut, infos en bas avec space-between
     card.innerHTML = `
       <div class="trail-image">
         <img src="${this.trail.image}" alt="${this.trail.name}" onerror="this.onerror=null; this.src='${this.defaultImage}'">
       </div>
       <div class="trail-info">
-        <!-- Titre en haut -->
         <h3 class="trail-name">${this.trail.name}</h3>
         
-        <!-- Bloc d'informations en bas -->
         <div class="trail-details">
-          <!-- Difficulté et distance groupées -->
           <div class="trail-metrics">
             <div class="trail-difficulty ${difficultyInfo.className}">
               ${difficultyInfo.text}
@@ -45,13 +40,11 @@ export class TrailCard {
             <div class="trail-distance">${this.trail.distance} km</div>
           </div>
           
-          <!-- Type de parcours à droite -->
           <div class="trail-type">${this.trail.type}</div>
         </div>
       </div>
     `;
 
-    // Ajout des écouteurs d'événements
     card.addEventListener('click', () => {
       if (this.clickHandler) {
         this.clickHandler(this.trail);
