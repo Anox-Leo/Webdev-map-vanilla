@@ -9,7 +9,7 @@ export class Sidebar {
   private sidebarTemplate = `
     <div class="sidebar" id="sidebar">
       <div class="sidebar-header">
-        <img src="/assets/images/apsa-logo.png" alt="APSA Logo" class="sidebar-logo" />
+        <img src="./assets/images/apsa-logo.png" alt="APSA Logo" class="sidebar-logo" />
         <h1>APSA Carte Interactive</h1>
       </div>
       

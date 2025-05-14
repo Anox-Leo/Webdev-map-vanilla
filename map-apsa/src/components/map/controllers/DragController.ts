@@ -64,7 +64,6 @@ export class DragController {
     this.isDragging = true;
     
     // Mémoriser la position de départ
-    const transformValues = this.transformController;
     this.startPosX = e.clientX;
     this.startPosY = e.clientY;
     
