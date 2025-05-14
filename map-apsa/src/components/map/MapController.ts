@@ -5,6 +5,7 @@ import {
   UIController, 
   NotificationController 
 } from './controllers';
+import { UserBubble } from '../users/UserBubble';
 
 export class MapController {
   // Controllers spécialisés
@@ -56,6 +57,7 @@ export class MapController {
       this.dragController
     );
     this.notificationController = new NotificationController(this.mapContainer);
+    new UserBubble();
 
     // Configurer les événements et initialiser la vue
     this.setupEventListeners();
