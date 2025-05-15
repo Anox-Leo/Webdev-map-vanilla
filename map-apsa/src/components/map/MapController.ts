@@ -5,6 +5,7 @@ import {
   UIController, 
   NotificationController 
 } from './controllers';
+import { UserBubble } from '../users/UserBubble';
 
 // Définition des modes d'affichage de la carte
 export enum MapDisplayMode {
@@ -65,6 +66,7 @@ export class MapController {
       this.dragController
     );
     this.notificationController = new NotificationController(this.mapContainer);
+    new UserBubble();
 
     // Configurer les événements et initialiser la vue
     this.setupEventListeners();
