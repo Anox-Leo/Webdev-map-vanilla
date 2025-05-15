@@ -9,11 +9,32 @@ export class TransformController {
   private rotateX: number = 40; // Degré d'inclinaison de la carte
   private rotateZ: number = 0; // Rotation horizontale (boussole)
   
+  // Mémoriser l'inclinaison par défaut pour passer du mode plat au mode incliné
+  private defaultRotateX: number = 40;
+  
   // Élément de carte SVG
   private mapSvg: HTMLObjectElement;
 
   constructor(mapSvg: HTMLObjectElement) {
     this.mapSvg = mapSvg;
+    this.updateMapTransform();
+  }
+
+  /**
+   * Active ou désactive le mode plat (sans inclinaison)
+   */
+  public setFlatMode(isFlat: boolean): void {
+    if (isFlat) {
+      // Sauvegarder l'inclinaison actuelle si ce n'est pas déjà fait
+      if (this.rotateX !== 0) {
+        this.defaultRotateX = this.rotateX;
+      }
+      // Passer en mode plat (vue de dessus)
+      this.rotateX = 0;
+    } else {
+      // Restaurer l'inclinaison par défaut
+      this.rotateX = this.defaultRotateX;
+    }
     this.updateMapTransform();
   }
 

@@ -1,4 +1,5 @@
 import { TransformController } from './TransformController';
+import { MapDisplayMode } from '../MapController';
 
 export class DragController {
   // État du drag & drop
@@ -9,6 +10,9 @@ export class DragController {
   // Références
   private mapView: HTMLElement;
   private transformController: TransformController;
+  
+  // Mode d'affichage actuel
+  private currentMode: MapDisplayMode = MapDisplayMode.GRABBING;
 
   constructor(mapView: HTMLElement, transformController: TransformController) {
     this.mapView = mapView;
@@ -23,6 +27,9 @@ export class DragController {
 
     // Commencer le déplacement
     this.mapView.addEventListener('mousedown', (e) => {
+      // Si on est en mode plat, ne pas démarrer le déplacement
+      if (this.currentMode === MapDisplayMode.FLAT) return;
+      
       // Ignorer les clics sur les contrôles
       if (this.isControlElement(e.target as HTMLElement)) return;
       
@@ -48,18 +55,32 @@ export class DragController {
   }
 
   /**
+   * Met à jour le mode d'affichage actuel
+   */
+  public setDisplayMode(mode: MapDisplayMode): void {
+    this.currentMode = mode;
+    
+    // Si le mode change et qu'un déplacement est en cours, le terminer
+    if (this.isDragging) {
+      this.endDrag();
+    }
+  }
+
+  /**
    * Détermine si un élément est un contrôle de la carte
    */
   private isControlElement(element: HTMLElement): boolean {
     // Vérifier si l'élément est un contrôle ou descendant d'un contrôle
-    return element.closest('.map-controls') !== null || element.closest('.compass-container') !== null;
+    return element.closest('.map-controls') !== null || 
+           element.closest('.compass-container') !== null ||
+           element.closest('.map-mode-selector') !== null;
   }
 
   /**
    * Démarre le déplacement de la carte
    */
   private startDrag(e: MouseEvent): void {
-    if (!this.mapView) return;
+    if (!this.mapView || this.currentMode === MapDisplayMode.FLAT) return;
     
     this.isDragging = true;
     
@@ -79,7 +100,7 @@ export class DragController {
    * Gère le déplacement continu de la carte
    */
   private moveDrag(e: MouseEvent): void {
-    if (!this.isDragging) return;
+    if (!this.isDragging || this.currentMode === MapDisplayMode.FLAT) return;
     
     // Calculer la nouvelle position avec une sensibilité adaptée au zoom
     // Plus le zoom est élevé, plus le mouvement est lent

@@ -1,6 +1,7 @@
 import { TransformController } from './TransformController';
 import { CompassController } from './CompassController';
 import { DragController } from './DragController';
+import { MapDisplayMode } from '../MapController';
 
 export class UIController {
   // Éléments DOM
@@ -13,6 +14,9 @@ export class UIController {
   private transformController: TransformController;
   private compassController: CompassController;
   private dragController: DragController;
+  
+  // Mode d'affichage actuel
+  private currentMode: MapDisplayMode = MapDisplayMode.GRABBING;
 
   constructor(
     mapView: HTMLElement,
@@ -29,6 +33,13 @@ export class UIController {
     this.zoomInBtn = document.getElementById('zoom-in') as HTMLButtonElement;
     this.zoomOutBtn = document.getElementById('zoom-out') as HTMLButtonElement;
     this.resetBtn = document.getElementById('reset') as HTMLButtonElement;
+  }
+
+  /**
+   * Met à jour le mode d'affichage actuel
+   */
+  public setDisplayMode(mode: MapDisplayMode): void {
+    this.currentMode = mode;
   }
 
   /**
@@ -57,6 +68,12 @@ export class UIController {
     // Zoom avec la molette
     this.mapView.addEventListener('wheel', (e) => {
       e.preventDefault();
+      
+      // En mode plat, permettre uniquement le zoom (pas de modification d'inclinaison)
+      if (this.currentMode === MapDisplayMode.FLAT) {
+        // Ne pas permettre l'inclinaison en mode plat
+        this.transformController.setFlatMode(true);
+      }
       
       // Vérifier que la carte n'est pas en cours de rotation
       if (this.compassController.isRotatingActive()) return;
@@ -88,6 +105,12 @@ export class UIController {
 
     // Double-clic pour zoom avant
     this.mapView.addEventListener('dblclick', (e) => {
+      // Si on est en mode plat, permettre le double-clic uniquement pour le zoom (pas de rotation)
+      if (this.currentMode === MapDisplayMode.FLAT) {
+        // Ne pas permettre l'inclinaison en mode plat
+        this.transformController.setFlatMode(true);
+      }
+      
       // Vérifier que l'élément n'est pas un contrôle
       if (this.isControlElement(e.target as HTMLElement)) return;
       
@@ -114,6 +137,8 @@ export class UIController {
    */
   private isControlElement(element: HTMLElement): boolean {
     // Vérifier si l'élément est un contrôle ou descendant d'un contrôle
-    return element.closest('.map-controls') !== null || element.closest('.compass-container') !== null;
+    return element.closest('.map-controls') !== null || 
+           element.closest('.compass-container') !== null || 
+           element.closest('.map-mode-selector') !== null;
   }
 } 

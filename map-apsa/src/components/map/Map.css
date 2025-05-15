@@ -294,24 +294,123 @@
 }
 
 .map-notification {
-  position: absolute;
-  top: 50%;
+  position: fixed;
+  bottom: 80px;
   left: 50%;
-  transform: translate(-50%, -50%) translateY(50px);
-  background-color: rgba(0, 0, 0, 0.7);
+  transform: translateX(-50%) translateY(100px);
+  background-color: rgba(33, 33, 33, 0.9);
   color: white;
-  padding: 8px 16px;
-  border-radius: 4px;
+  padding: 12px 20px;
+  border-radius: 30px;
   font-size: 14px;
   opacity: 0;
-  transition: opacity 0.3s, transform 0.3s;
+  transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+  z-index: 1000;
   pointer-events: none;
-  z-index: 100;
-  text-align: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
   max-width: 80%;
+  text-align: center;
 }
 
 .map-notification.show {
+  transform: translateX(-50%) translateY(0);
   opacity: 1;
-  transform: translate(-50%, -50%);
+}
+
+/* Styles pour les modes d'affichage */
+.mode-grabbing .map-view {
+  cursor: grab;
+  perspective: 1000px;
+}
+
+.mode-grabbing .map-view.dragging {
+  cursor: grabbing;
+}
+
+.mode-flat .map-view {
+  cursor: default;
+  perspective: none;
+}
+
+.mode-flat .map-svg {
+  pointer-events: all !important;
+}
+
+/* Sélecteur de mode */
+.map-mode-selector {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.mode-title {
+  font-size: 14px;
+  font-weight: bold;
+  color: #555;
+  margin-bottom: 8px;
+}
+
+.mode-options {
+  display: flex;
+  gap: 10px;
+}
+
+.mode-btn {
+  padding: 8px 12px;
+  background-color: #f0f0f0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  color: #555;
+  transition: all 0.2s;
+}
+
+.mode-btn:hover {
+  background-color: #e8e8e8;
+}
+
+.mode-btn.active {
+  background-color: #3498db;
+  color: white;
+}
+
+/* Styles responsive pour le sélecteur de mode */
+@media (max-width: 768px) {
+  .map-mode-selector {
+    bottom: 10px;
+    width: 90%;
+    max-width: 300px;
+  }
+  
+  .mode-options {
+    width: 100%;
+  }
+  
+  .mode-btn {
+    flex: 1;
+    white-space: nowrap;
+    font-size: 12px;
+    padding: 6px 8px;
+  }
+}
+
+/* Styles pour la boussole désactivée */
+.compass-rotator.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.mode-flat .compass-container {
+  opacity: 0.6;
 } 
