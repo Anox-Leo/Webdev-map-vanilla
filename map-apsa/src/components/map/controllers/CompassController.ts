@@ -18,6 +18,9 @@ export class CompassController {
   
   // Mode d'affichage actuel
   private currentMode: MapDisplayMode = MapDisplayMode.GRABBING;
+  
+  // Indique si le contrôleur est activé
+  private enabled: boolean = true;
 
   constructor(transformController: TransformController) {
     this.transformController = transformController;
@@ -30,6 +33,27 @@ export class CompassController {
   }
   
   /**
+   * Active ou désactive le contrôleur de boussole
+   */
+  public setEnabled(enabled: boolean): void {
+    this.enabled = enabled;
+    
+    // Si on désactive le contrôleur et qu'une rotation est en cours, la terminer
+    if (!enabled && this.isRotating) {
+      this.endRotation();
+    }
+    
+    // Mettre à jour l'apparence visuelle de la boussole
+    if (this.compassRotator) {
+      if (!enabled) {
+        this.compassRotator.classList.add('disabled');
+      } else if (this.currentMode !== MapDisplayMode.FLAT) {
+        this.compassRotator.classList.remove('disabled');
+      }
+    }
+  }
+  
+  /**
    * Met à jour le mode d'affichage actuel
    */
   public setDisplayMode(mode: MapDisplayMode): void {
@@ -39,7 +63,7 @@ export class CompassController {
     if (this.compassRotator && this.compassHandle) {
       if (mode === MapDisplayMode.FLAT) {
         this.compassRotator.classList.add('disabled');
-      } else {
+      } else if (this.enabled) {
         this.compassRotator.classList.remove('disabled');
       }
     }
@@ -58,15 +82,15 @@ export class CompassController {
     if (this.compassRotator) {
       // Démarrer la rotation
       this.compassRotator.addEventListener('mousedown', (e) => {
-        // Ne pas permettre la rotation en mode plat
-        if (this.currentMode === MapDisplayMode.FLAT) return;
+        // Ne pas permettre la rotation en mode plat ou si désactivé
+        if (this.currentMode === MapDisplayMode.FLAT || !this.enabled) return;
         
         this.startRotation(e);
       });
       
       this.compassRotator.addEventListener('touchstart', (e) => {
-        // Ne pas permettre la rotation en mode plat
-        if (this.currentMode === MapDisplayMode.FLAT) return;
+        // Ne pas permettre la rotation en mode plat ou si désactivé
+        if (this.currentMode === MapDisplayMode.FLAT || !this.enabled) return;
         
         if (e.touches.length === 1) {
           e.preventDefault();
@@ -76,13 +100,13 @@ export class CompassController {
       
       // Gérer la rotation
       window.addEventListener('mousemove', (e) => {
-        if (this.isRotating) {
+        if (this.isRotating && this.enabled) {
           this.moveRotation(e);
         }
       });
       
       window.addEventListener('touchmove', (e) => {
-        if (this.isRotating && e.touches.length === 1) {
+        if (this.isRotating && this.enabled && e.touches.length === 1) {
           e.preventDefault();
           this.moveRotation(e.touches[0]);
         }
@@ -101,7 +125,9 @@ export class CompassController {
     // Réinitialiser la rotation
     if (this.compassResetBtn) {
       this.compassResetBtn.addEventListener('click', () => {
-        this.resetRotation();
+        if (this.enabled) {
+          this.resetRotation();
+        }
       });
     }
   }
@@ -110,7 +136,7 @@ export class CompassController {
    * Démarre la rotation de la boussole
    */
   private startRotation(e: MouseEvent | Touch): void {
-    if (!this.compassRotator || this.currentMode === MapDisplayMode.FLAT) return;
+    if (!this.compassRotator || !this.enabled || this.currentMode === MapDisplayMode.FLAT) return;
     
     this.isRotating = true;
     
@@ -139,7 +165,7 @@ export class CompassController {
    * Gère le mouvement de rotation de la boussole
    */
   private moveRotation(e: MouseEvent | Touch): void {
-    if (!this.isRotating) return;
+    if (!this.isRotating || !this.enabled) return;
     
     // Calculer le nouvel angle
     const newAngle = this.calculateAngle(e.clientX, e.clientY);

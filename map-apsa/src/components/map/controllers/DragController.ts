@@ -13,6 +13,9 @@ export class DragController {
   
   // Mode d'affichage actuel
   private currentMode: MapDisplayMode = MapDisplayMode.GRABBING;
+  
+  // Indique si le contrôleur est activé
+  private enabled: boolean = true;
 
   constructor(mapView: HTMLElement, transformController: TransformController) {
     this.mapView = mapView;
@@ -27,8 +30,8 @@ export class DragController {
 
     // Commencer le déplacement
     this.mapView.addEventListener('mousedown', (e) => {
-      // Si on est en mode plat, ne pas démarrer le déplacement
-      if (this.currentMode === MapDisplayMode.FLAT) return;
+      // Si le contrôleur est désactivé ou en mode plat, ne pas démarrer le déplacement
+      if (!this.enabled || this.currentMode === MapDisplayMode.FLAT) return;
       
       // Ignorer les clics sur les contrôles
       if (this.isControlElement(e.target as HTMLElement)) return;
@@ -38,7 +41,7 @@ export class DragController {
 
     // Gérer le déplacement
     window.addEventListener('mousemove', (e) => {
-      if (this.isDragging) {
+      if (this.isDragging && this.enabled) {
         this.moveDrag(e);
       }
     });
@@ -52,6 +55,27 @@ export class DragController {
     window.addEventListener('mouseleave', () => {
       this.endDrag();
     });
+  }
+
+  /**
+   * Active ou désactive le contrôleur de drag & drop
+   */
+  public setEnabled(enabled: boolean): void {
+    this.enabled = enabled;
+    
+    // Si on désactive le contrôleur et qu'un déplacement est en cours, le terminer
+    if (!enabled && this.isDragging) {
+      this.endDrag();
+    }
+    
+    // Mettre à jour le style du curseur
+    if (this.mapView) {
+      if (enabled && this.currentMode === MapDisplayMode.GRABBING) {
+        this.mapView.style.cursor = 'grab';
+      } else if (!enabled) {
+        this.mapView.style.cursor = 'default';
+      }
+    }
   }
 
   /**
@@ -80,7 +104,7 @@ export class DragController {
    * Démarre le déplacement de la carte
    */
   private startDrag(e: MouseEvent): void {
-    if (!this.mapView || this.currentMode === MapDisplayMode.FLAT) return;
+    if (!this.mapView || !this.enabled || this.currentMode === MapDisplayMode.FLAT) return;
     
     this.isDragging = true;
     
@@ -99,7 +123,7 @@ export class DragController {
    * Gère le déplacement continu de la carte
    */
   private moveDrag(e: MouseEvent): void {
-    if (!this.isDragging || this.currentMode === MapDisplayMode.FLAT) return;
+    if (!this.isDragging || !this.enabled || this.currentMode === MapDisplayMode.FLAT) return;
     
     // Calculer la nouvelle position avec une sensibilité adaptée au zoom
     // Plus le zoom est élevé, plus le mouvement est lent

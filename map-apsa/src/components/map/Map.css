@@ -251,21 +251,28 @@
 .device-orientation-btn {
   width: 40px;
   height: 40px;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  transition: background-color 0.2s, transform 0.2s;
+  background-color: white;
+  border-radius: 50%;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #555;
+  transition: all 0.3s ease;
 }
 
 .device-orientation-btn.active {
   background-color: #3498db;
   color: white;
-  transform: scale(1.05);
+  transform: scale(1.1);
 }
 
 @media (max-width: 768px) {
   .map-container {
+    position: absolute;
     width: 100%;
-    height: 100vh;
+    height: 100%;
   }
   
   .map-controls {
@@ -294,33 +301,31 @@
 }
 
 .map-notification {
-  position: fixed;
-  bottom: 80px;
+  position: absolute;
+  top: 70px;
   left: 50%;
-  transform: translateX(-50%) translateY(100px);
-  background-color: rgba(33, 33, 33, 0.9);
+  transform: translateX(-50%) translateY(-10px);
+  background-color: rgba(0, 0, 0, 0.7);
   color: white;
-  padding: 12px 20px;
-  border-radius: 30px;
+  padding: 10px 15px;
+  border-radius: 5px;
   font-size: 14px;
   opacity: 0;
-  transition: transform 0.3s ease-out, opacity 0.3s ease-out;
-  z-index: 1000;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  z-index: 100;
   pointer-events: none;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-  max-width: 80%;
+  max-width: 90%;
   text-align: center;
 }
 
 .map-notification.show {
-  transform: translateX(-50%) translateY(0);
   opacity: 1;
+  transform: translateX(-50%) translateY(0);
 }
 
-/* Styles pour les modes d'affichage */
+/* Styles pour les différents modes d'affichage */
 .mode-grabbing .map-view {
   cursor: grab;
-  perspective: 1000px;
 }
 
 .mode-grabbing .map-view.dragging {
@@ -329,79 +334,106 @@
 
 .mode-flat .map-view {
   cursor: default;
-  perspective: none;
 }
 
 .mode-flat .map-svg {
-  pointer-events: all !important;
+  pointer-events: auto;
 }
 
-/* Sélecteur de mode */
+/* Selector de mode */
 .map-mode-selector {
   position: absolute;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
+  left: 20px;
+  top: 135px;
   background-color: white;
   border-radius: 8px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   padding: 10px;
   z-index: 10;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
 }
 
 .mode-title {
-  font-size: 14px;
   font-weight: bold;
-  color: #555;
-  margin-bottom: 8px;
+  margin-bottom: 5px;
+  font-size: 14px;
 }
 
 .mode-options {
   display: flex;
-  gap: 10px;
+  gap: 5px;
 }
 
-.mode-btn {
-  padding: 8px 12px;
+/* Style pour les anciens boutons de mode */
+.map-mode-selector .mode-btn {
   background-color: #f0f0f0;
-  border: none;
+  border: 1px solid #ccc;
   border-radius: 4px;
+  padding: 5px 10px;
   cursor: pointer;
-  font-size: 14px;
-  color: #555;
-  transition: all 0.2s;
+  font-size: 13px;
+  transition: all 0.2s ease;
 }
 
-.mode-btn:hover {
-  background-color: #e8e8e8;
+.map-mode-selector .mode-btn:hover {
+  background-color: #e0e0e0;
 }
 
-.mode-btn.active {
-  background-color: #3498db;
+.map-mode-selector .mode-btn.active {
+  background-color: #3366cc;
   color: white;
+  border-color: #2255aa;
 }
 
-/* Styles responsive pour le sélecteur de mode */
-@media (max-width: 768px) {
-  .map-mode-selector {
-    bottom: 10px;
-    width: 90%;
-    max-width: 300px;
-  }
-  
-  .mode-options {
-    width: 100%;
-  }
-  
-  .mode-btn {
-    flex: 1;
-    white-space: nowrap;
-    font-size: 12px;
-    padding: 6px 8px;
-  }
+/* Selector d'interaction en mode plat */
+.map-interaction-selector {
+  position: absolute;
+  left: 20px;
+  top: 190px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  z-index: 100;
+}
+
+.interaction-title {
+  font-weight: bold;
+  margin-bottom: 5px;
+  font-size: 14px;
+}
+
+.interaction-options {
+  display: flex;
+  gap: 5px;
+}
+
+.interaction-btn {
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 5px 10px;
+  cursor: pointer;
+  font-size: 13px;
+  transition: all 0.2s ease;
+}
+
+.interaction-btn:hover {
+  background-color: #e0e0e0;
+}
+
+.interaction-btn.active {
+  background-color: #3366cc;
+  color: white;
+  border-color: #2255aa;
+}
+
+/* Curseurs en fonction du mode d'interaction */
+.mode-flat.interaction-select .map-view {
+  cursor: pointer;
+}
+
+.mode-flat.interaction-add_point .map-view {
+  cursor: crosshair;
 }
 
 /* Styles pour la boussole désactivée */
@@ -413,4 +445,69 @@
 
 .mode-flat .compass-container {
   opacity: 0.6;
+}
+
+/* Styles pour le sélecteur de mode (navigation/interaction) */
+.map-mode-switcher {
+  position: absolute;
+  left: 130px;
+  top: 20px;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  z-index: 100;
+}
+
+/* Styles pour les icônes des boutons de mode */
+.map-mode-switcher .mode-btn .mode-icon {
+  width: 20px;
+  height: 20px;
+  filter: invert(52%) sepia(79%) saturate(478%) hue-rotate(121deg) brightness(89%) contrast(87%);
+  transition: all 0.2s ease;
+}
+
+.map-mode-switcher .mode-btn.active .mode-icon {
+  filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(93deg) brightness(103%) contrast(103%); /* Blanc */
+}
+
+/* Style pour les nouveaux boutons de mode */
+.map-mode-switcher .mode-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  padding: 10px 15px;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s ease;
+  font-size: 14px;
+  color: #555;
+}
+
+.map-mode-switcher .mode-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+}
+
+.map-mode-switcher .mode-btn.active {
+  background-color: var(--color-primary, #14C78B);
+  color: white;
+}
+
+@media (max-width: 768px) {
+  .map-mode-switcher {
+    top: 10px;
+    left: 100px;
+  }
+  
+  .map-mode-switcher .mode-btn {
+    padding: 8px 12px;
+    font-size: 12px;
+  }
+  
+  .map-mode-switcher .mode-btn span {
+    display: none;
+  }
 } 
