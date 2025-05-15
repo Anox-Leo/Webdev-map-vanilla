@@ -4,6 +4,7 @@ import { TrailsList } from '../trails/TrailsList';
 import { getTrails } from '../trails/TrailsData';
 import { Trail } from '../trails/TrailCard';
 import { trailDetails } from '../trails/TrailDetailsData';
+import { TrailStepCard } from '../trails/TrailStepCard';
 
 export class Sidebar {
   private container: HTMLElement;
@@ -203,17 +204,40 @@ export class Sidebar {
       return;
     }
 
+    let currentIndex = 0;
+
+    const renderHint = (index: number) => {
+      const card = new TrailStepCard(
+          trailDetail.photos[index],
+          trailDetail.descriptions[index],
+          trailDetail.alts[index]
+      );
+      const detailsContainer = contentContainer.querySelector('.trail-details');
+      if (detailsContainer) {
+        detailsContainer.appendChild(card.render()); // Ajoute le nouvel indice
+      }
+    };
+
     contentContainer.innerHTML = `
-    <div class="trail-details">
-      ${trailDetail.photos.map((photo, index) => `
-        <div class="trail-detail-item">
-          <img src="${photo}" alt="${trailDetail.alts[index]}" class="trail-detail-photo" />
-          <p class="trail-detail-description">${trailDetail.descriptions[index]}</p>
-        </div>
-      `).join('')}
-      <button class="action-btn secondary" id="back-to-trails">Retour</button>
-    </div>
+    <div class="trail-details"></div>
+    <button class="action-btn secondary" id="next-hint">Prochain indice</button>
+    <button class="action-btn secondary" id="back-to-trails">Retour</button>
   `;
+
+    renderHint(currentIndex);
+
+    const nextHintButton = document.getElementById('next-hint');
+    if (nextHintButton) {
+      nextHintButton.addEventListener('click', () => {
+        currentIndex++;
+        renderHint(currentIndex);
+
+        // Masque le bouton si tous les indices sont affichés
+        if (currentIndex === trailDetail.photos.length - 1) {
+          nextHintButton.style.display = 'none';
+        }
+      });
+    }
 
     const backButton = document.getElementById('back-to-trails');
     if (backButton) {
