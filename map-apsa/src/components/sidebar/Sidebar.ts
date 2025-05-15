@@ -3,6 +3,7 @@ import '../trails/Trails.css';
 import { TrailsList } from '../trails/TrailsList';
 import { getTrails } from '../trails/TrailsData';
 import { Trail } from '../trails/TrailCard';
+import { trailDetails } from '../trails/TrailDetailsData';
 
 export class Sidebar {
   private container: HTMLElement;
@@ -40,6 +41,9 @@ export class Sidebar {
     this.setupEventListeners();
     this.restoreCollapseState();
     this.loadTrails();
+    this.trailsList?.setTrailSelectHandler((trail: Trail) => {
+      this.handleTrailSelection(trail);
+    });
   }
 
   private render(): void {
@@ -188,8 +192,39 @@ export class Sidebar {
       contentContainer.innerHTML = '<div class="error">Erreur lors du chargement des parcours.</div>';
     }
   }
-  
+
+  private showTrailDetails(trailId: string): void {
+    const contentContainer = document.getElementById('sidebar-content');
+    if (!contentContainer) return;
+
+    const trailDetail = trailDetails.find(detail => detail.id === trailId);
+    if (!trailDetail) {
+      contentContainer.innerHTML = '<div class="error">Détails non disponibles pour ce parcours.</div>';
+      return;
+    }
+
+    contentContainer.innerHTML = `
+    <div class="trail-details">
+      ${trailDetail.photos.map((photo, index) => `
+        <div class="trail-detail-item">
+          <img src="${photo}" alt="${trailDetail.alts[index]}" class="trail-detail-photo" />
+          <p class="trail-detail-description">${trailDetail.descriptions[index]}</p>
+        </div>
+      `).join('')}
+      <button class="action-btn secondary" id="back-to-trails">Retour</button>
+    </div>
+  `;
+
+    const backButton = document.getElementById('back-to-trails');
+    if (backButton) {
+      backButton.addEventListener('click', () => {
+        this.resetContent();
+      });
+    }
+  }
+
   private handleTrailSelection(trail: Trail): void {
     console.log(`Parcours sélectionné: ${trail.name}`);
+    this.showTrailDetails(trail.id);
   }
 } 
