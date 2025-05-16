@@ -1,0 +1,1 @@
+export const localServer = 'ws://10.144.201.66:8080';

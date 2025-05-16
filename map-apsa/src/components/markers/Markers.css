@@ -1,0 +1,303 @@
+/* Styles pour les points ajoutés par l'utilisateur */
+#user-points-group circle {
+  transition: all 0.2s ease;
+}
+
+#user-points-group circle:hover {
+  stroke-width: 3;
+  r: 6;
+}
+
+/* Nouvelle barre de commentaires en bas à droite */
+.comments-toolbar {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  z-index: 100;
+}
+
+.add-comment-btn {
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  background-color: var(--color-primary, #14C78B);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: white;
+  font-size: 22px;
+  transition: all 0.2s ease;
+  border: none;
+}
+
+.add-comment-btn:hover {
+  transform: scale(1.05);
+  background-color: #10a575; /* Version plus foncée de la couleur primaire */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Panel pour les options de marqueurs */
+.marker-options {
+  position: absolute;
+  bottom: 80px;
+  right: 20px;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 3px 15px rgba(0, 0, 0, 0.2);
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  opacity: 0;
+  transform: translateY(20px);
+  pointer-events: none;
+  transition: all 0.3s ease;
+  z-index: 100;
+  border: 1px solid var(--color-neutral, #F8FAE5);
+  min-width: 320px;
+  max-width: 400px;
+  box-sizing: border-box;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  color: var(--color-secondary, #1C3238);
+}
+
+.marker-options.visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.marker-options-title {
+  font-weight: bold;
+  margin-bottom: 8px;
+  font-size: 16px;
+  color: var(--color-secondary, #1C3238);
+}
+
+.marker-option-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background-color: transparent;
+  border: 1px solid var(--color-neutral, #F8FAE5);
+}
+
+.marker-option-btn:hover {
+  background-color: #f5f5f5;
+}
+
+.marker-option-btn.active {
+  background-color: rgba(20, 199, 139, 0.1); /* Couleur primaire avec transparence */
+  border-color: var(--color-primary, #14C78B);
+}
+
+.marker-option-icon {
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+}
+
+.marker-option-label {
+  font-size: 14px;
+  color: var(--color-secondary, #1C3238);
+}
+
+.marker-option-danger .marker-option-icon {
+  color: var(--color-semantic, #FF5A33);
+}
+
+.marker-option-info .marker-option-icon {
+  color: var(--color-primary, #14C78B);
+}
+
+/* Bouton de placement de points */
+.point-control {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  margin-top: 10px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 5px;
+}
+
+.place-point-btn, .place-danger-btn, .clear-markers-btn {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border-radius: 4px;
+  border: 1px solid transparent;
+}
+
+.place-point-btn:hover, .place-danger-btn:hover, .clear-markers-btn:hover {
+  background-color: #f0f0f0;
+}
+
+.place-point-btn.active {
+  background-color: var(--color-primary, #14C78B);
+  color: white;
+}
+
+.place-danger-btn.active {
+  background-color: var(--color-semantic, #FF5A33);
+  color: white;
+}
+
+.clear-markers-btn {
+  color: #777;
+  font-size: 18px;
+}
+
+.clear-markers-btn:hover {
+  background-color: rgba(255, 90, 51, 0.1); /* Couleur sémantique avec transparence */
+  color: var(--color-semantic, #FF5A33);
+}
+
+/* Curseur en mode placement de points */
+.point-placement-mode .map-svg {
+  cursor: crosshair !important;
+}
+
+/* Styles pour les marqueurs de localisation */
+.location-marker {
+  cursor: pointer;
+  transition: all 0.3s ease;
+  transform-box: fill-box;
+  transform-origin: bottom center;
+  transform-style: preserve-3d;
+  transform: translateZ(1px);
+}
+
+.location-marker:hover {
+  transform: translateY(-3px) scale(1.2) translateZ(5px) !important;
+  filter: drop-shadow(0 4px 3px rgba(0, 0, 0, 0.4));
+  z-index: 100;
+}
+
+/* Styles spécifiques pour les marqueurs standards */
+.location-marker.default path {
+  transition: fill 0.2s ease, stroke-width 0.2s ease;
+}
+
+.location-marker.default:hover path {
+  fill: rgba(20, 199, 139, 0.9); /* Couleur primaire */
+  stroke-width: 2;
+}
+
+.location-marker.default circle {
+  transition: r 0.2s ease;
+}
+
+.location-marker.default:hover circle {
+  r: 3;
+}
+
+/* Styles spécifiques pour les marqueurs de danger */
+.location-marker.danger path:first-of-type {
+  transition: fill 0.2s ease, stroke-width 0.2s ease, transform 0.2s ease;
+}
+
+.location-marker.danger:hover path:first-of-type {
+  fill: rgba(255, 90, 51, 0.9); /* Couleur sémantique */
+  stroke-width: 2;
+}
+
+.location-marker.danger path:last-of-type {
+  transition: stroke-width 0.2s ease;
+}
+
+.location-marker.danger:hover path:last-of-type {
+  stroke-width: 2.5;
+}
+
+/* Animation de pulsation pour les marqueurs de danger */
+@keyframes pulse {
+  0% { transform: scale(1) translateZ(1px); }
+  50% { transform: scale(1.1) translateZ(1px); }
+  100% { transform: scale(1) translateZ(1px); }
+}
+
+.location-marker.danger {
+  animation: pulse 2s infinite ease-in-out;
+}
+
+/* Couleurs alternatives pour les marqueurs */
+.location-marker.blue path {
+  fill: rgba(0, 100, 255, 0.8);
+}
+
+.location-marker.green path {
+  fill: var(--color-primary, #14C78B);
+}
+
+.location-marker.yellow path {
+  fill: var(--color-neutral, #F8FAE5);
+}
+
+.location-marker.purple path {
+  fill: #6a3abc;
+}
+
+/* Media queries pour la responsivité */
+@media (max-width: 768px) {
+  .comments-toolbar {
+    bottom: 15px;
+    right: 15px;
+  }
+  
+  .marker-options {
+    bottom: 70px;
+    right: 15px;
+    padding: 15px;
+    min-width: 280px;
+    max-width: 90vw;
+    width: auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .marker-options {
+    right: 10px;
+    left: 10px;
+    max-width: calc(100vw - 20px);
+    width: auto;
+    padding: 12px;
+  }
+  
+  .marker-form {
+    min-width: 0;
+  }
+  
+  .marker-form-field textarea {
+    min-height: 80px;
+  }
+}
+
+/* AJOUT : Styles pour les icônes SVG des marqueurs */
+.location-marker image {
+  pointer-events: none; /* Pour éviter les problèmes de clic */
+  filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.5));
+  transition: transform 0.2s ease;
+}
+
+.location-marker:hover image {
+  transform: scale(1.1); /* Agrandir légèrement au survol */
+} 

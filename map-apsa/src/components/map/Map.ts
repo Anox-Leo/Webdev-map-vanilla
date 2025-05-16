@@ -3,7 +3,6 @@ import { MapController } from './MapController';
 
 export class Map {
   private container: HTMLElement;
-  private mapController: MapController;
   private template = `
     <div class="map-container" id="map-container">
       <div class="map-view">
@@ -47,7 +46,7 @@ export class Map {
   constructor(container: HTMLElement) {
     this.container = container;
     this.render();
-    this.mapController = new MapController();
+    new MapController();
   }
 
   private render(): void {
