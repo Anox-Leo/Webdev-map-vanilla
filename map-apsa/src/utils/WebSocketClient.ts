@@ -28,16 +28,7 @@ const users = [
             "latitude": 307.804688,
             "longitude": 416.132812
         }
-    },
-    {
-        "id": "user4",
-        "name": "Guillaume",
-        "color": "rgb(66,244,66)",
-        "location": {
-            "latitude": 270.585938,
-            "longitude": 685.890625
-        }
-    },
+    }
 ];
 
 export class WebSocketClient {
@@ -83,6 +74,7 @@ export class WebSocketClient {
         };
 
         this.ws.onmessage = (event) => {
+            console.log(event.data);
             let newUsers = JSON.parse(event.data);
             let currentUser = "";
             for (let i = 0; i < newUsers.length; i++) {

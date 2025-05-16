@@ -52,18 +52,52 @@ export class UserList {
     this.container.appendChild(listContainer);
   }
 
-  private displayUserOnMap(user: User): void {
+  private addUserOnMap(user: User): void {
       const mapSvg = document.getElementById('map-svg') as HTMLObjectElement;
-      
-      // // Add new <path> element at the end of the SVG
-      // const svg = mapSvg.contentDocument?.querySelector('svg') as Html
-      // const newPath = svg?.createElementNS('http://www.w3.org/2000/svg', 'path');
-      // newPath.setAttribute('class', 'user3');
-      // newPath.setAttribute('d', 'M 0 0 L 10 10');
-      // newPath.setAttribute('style', `stroke:white;stroke-width:0.4;fill-rule:nonzero;fill:rgb(244,66,244);fill-opacity:1;`);
+      const svgDoc = mapSvg?.contentDocument;
+      const newPath = svgDoc?.createElementNS('http://www.w3.org/2000/svg', 'path');
+      newPath?.setAttribute('class', user.id!); 
+      newPath?.setAttribute('style', `display:none;stroke:white;stroke-width:0.4;fill-rule:nonzero;fill:${user.color};fill-opacity:1;`);
+      newPath?.setAttribute('d', this.calculatePath(user));
+      console.log(mapSvg);
+      const svgElement = svgDoc?.querySelector('svg');
+      svgElement?.appendChild(newPath!);
+  }
 
+  private calculatePath(user: User): string {
+    const deltas = [
+        [-0.890625, 3.023438],
+        [-2.382813, 2.070312],
+        [-3.125, 0.445313],
+        [-2.867187, -1.3125],
+        [-1.710938, -2.648438],
+        [0, -3.15625],
+        [1.710938, -2.65625],
+        [2.867187, -1.3125],
+        [3.125, 0.453125],
+        [2.382813, 2.0625],
+        [0.890625, 3.03125]
+    ];
+
+    let x = user.position?.x!;
+    let y = user.position?.y!;
+    let path = `M ${x} ${y}`;
+
+    for (const [dx, dy] of deltas) {
+        x += dx;
+        y += dy;
+        path += ` L ${x} ${y}`;
+    }
+
+    path += ` L ${user.position?.x} ${user.position?.y}`;
+
+    return path;
+  }
+
+  private displayUserOnMap(user: User): void {
+      this.addUserOnMap(user);
+      const mapSvg = document.getElementById('map-svg') as HTMLObjectElement;
       const path = mapSvg.contentDocument?.querySelector('svg')?.querySelector(`path.${user.id}`);
-      console.log(path);
       var pathStyle = path?.getAttribute('style')?.replace('display: none;', 'display:initial;').replace('display:none;', 'display:initial;');
       path?.setAttribute('style', pathStyle!);
   }
