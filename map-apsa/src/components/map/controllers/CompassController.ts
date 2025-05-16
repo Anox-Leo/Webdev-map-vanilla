@@ -18,7 +18,7 @@ export class CompassController {
   
   // Mode d'affichage actuel
   private currentMode: MapDisplayMode = MapDisplayMode.GRABBING;
-  
+
   // Indique si le contrôleur est activé
   private enabled: boolean = true;
 
@@ -126,7 +126,7 @@ export class CompassController {
     if (this.compassResetBtn) {
       this.compassResetBtn.addEventListener('click', () => {
         if (this.enabled) {
-          this.resetRotation();
+        this.resetRotation();
         }
       });
     }

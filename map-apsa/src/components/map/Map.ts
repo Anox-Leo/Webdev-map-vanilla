@@ -3,6 +3,7 @@ import { MapController } from './MapController';
 
 export class Map {
   private container: HTMLElement;
+  private mapController: MapController | null = null;
   private template = `
     <div class="map-container" id="map-container">
       <div class="map-view">
@@ -46,7 +47,12 @@ export class Map {
   constructor(container: HTMLElement) {
     this.container = container;
     this.render();
-    new MapController();
+    this.mapController = new MapController();
+    
+    // Émettre un événement pour indiquer que la carte est initialisée
+    document.dispatchEvent(new CustomEvent('mapInitialized', { 
+      detail: { mapInstance: this } 
+    }));
   }
 
   private render(): void {
@@ -56,5 +62,12 @@ export class Map {
     
     // On ajoute notre élément au conteneur
     this.container.appendChild(mapWrapper.firstElementChild as HTMLElement);
+  }
+  
+  /**
+   * Retourne le contrôleur de carte
+   */
+  public getMapController(): MapController | null {
+    return this.mapController;
   }
 } 

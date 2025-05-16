@@ -1,0 +1,253 @@
+/* Styles pour l'éditeur de parcours */
+.trail-editor-container {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  width: 320px;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 3px 15px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(20px);
+  pointer-events: none;
+  transition: all 0.3s ease;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  color: var(--color-secondary, #1C3238);
+  border: 1px solid var(--color-neutral, #F8FAE5);
+}
+
+.trail-editor-container.visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+/* En-tête de l'éditeur */
+.trail-editor-header {
+  background-color: var(--color-primary, #14C78B);
+  color: white;
+  padding: 15px;
+  position: relative;
+}
+
+.trail-editor-header h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.trail-editor-close {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+  opacity: 0.8;
+  transition: opacity 0.2s;
+}
+
+.trail-editor-close:hover {
+  opacity: 1;
+}
+
+/* Corps de l'éditeur */
+.trail-editor-body {
+  padding: 16px;
+}
+
+.trail-editor-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.trail-editor-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.trail-editor-field label {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-secondary, #1C3238);
+}
+
+.trail-editor-field input,
+.trail-editor-field select {
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  background-color: white;
+  color: var(--color-secondary, #1C3238);
+}
+
+.trail-editor-field input:focus,
+.trail-editor-field select:focus {
+  outline: none;
+  border-color: var(--color-primary, #14C78B);
+  box-shadow: 0 0 0 2px rgba(20, 199, 139, 0.2);
+}
+
+/* Messages d'erreur */
+.marker-form-error {
+  color: var(--color-semantic, #FF5A33);
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+/* Informations sur le parcours */
+.trail-editor-info {
+  background-color: #f9f9f9;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 8px;
+}
+
+.trail-editor-info p {
+  margin: 0 0 4px 0;
+  font-size: 13px;
+  color: #666;
+}
+
+.trail-editor-point-count {
+  font-weight: bold;
+  color: var(--color-primary, #14C78B);
+}
+
+.trail-editor-distance {
+  font-weight: bold;
+  color: var(--color-secondary, #1C3238);
+}
+
+/* Instructions */
+.trail-editor-instructions {
+  margin-top: 12px;
+  padding: 12px;
+  background-color: var(--color-neutral, #F8FAE5);
+  border-left: 3px solid var(--color-primary, #14C78B);
+  border-radius: 4px;
+}
+
+.trail-editor-instructions p {
+  margin: 0 0 4px 0;
+  font-size: 13px;
+  color: var(--color-secondary, #1C3238);
+}
+
+/* Pied de page de l'éditeur */
+.trail-editor-footer {
+  padding: 12px 16px;
+  background-color: #f5f5f5;
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  border-top: 1px solid #eee;
+}
+
+.trail-editor-btn {
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.trail-editor-btn.cancel {
+  background-color: #f0f0f0;
+  color: #333;
+  border: 1px solid #ddd;
+}
+
+.trail-editor-btn.cancel:hover {
+  background-color: #e0e0e0;
+}
+
+.trail-editor-btn.finish,
+.trail-editor-btn.primary {
+  background-color: var(--color-primary, #14C78B);
+  color: white;
+  border: none;
+}
+
+.trail-editor-btn.finish:hover,
+.trail-editor-btn.primary:hover {
+  background-color: #10a575; /* Version plus foncée de la couleur primaire */
+  transform: translateY(-2px);
+}
+
+/* Ajustements pour le mode création de parcours */
+#map-container.trail-creation-mode .map-view {
+  cursor: pointer;
+}
+
+/* Styles pour les sélecteurs */
+select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23333' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 10px;
+  padding-right: 30px;
+  appearance: none;
+  color: var(--color-secondary, #1C3238);
+}
+
+/* Mode de création de trail */
+#map-container.trail-creation-mode .map-svg {
+  cursor: crosshair !important;
+}
+
+/* Styles pour les points d'un parcours */
+.trail-point {
+  fill: white;
+  stroke: black;
+  stroke-width: 1.5;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.trail-point:hover {
+  stroke-width: 2.5;
+  fill: yellow;
+}
+
+.trail-point.start {
+  fill: green;
+}
+
+.trail-point.end {
+  fill: red;
+}
+
+.trail-path {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  pointer-events: none;
+}
+
+/* Styles pour les média queries */
+@media (max-width: 768px) {
+  .trail-editor-container {
+    width: 280px;
+    bottom: 15px;
+    right: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .trail-editor-container {
+    right: 10px;
+    left: 10px;
+    max-width: calc(100vw - 20px);
+    width: auto;
+  }
+} 

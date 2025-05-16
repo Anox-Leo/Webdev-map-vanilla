@@ -5,6 +5,20 @@ export interface Trail {
   distance: number;
   type: string;
   image: string;
+  svgElements?: Array<{
+    id: string;
+    type: string;
+    order: number;
+    d?: string;           // Pour les chemins (path)
+    points?: string;      // Pour les polygones/polylines
+    cx?: string | number; // Pour les cercles (centre x)
+    cy?: string | number; // Pour les cercles (centre y)
+    r?: string | number;  // Pour les cercles (rayon)
+    x?: string | number;  // Pour les rectangles (position x)
+    y?: string | number;  // Pour les rectangles (position y)
+    width?: string | number; // Pour les rectangles (largeur)
+    height?: string | number; // Pour les rectangles (hauteur)
+  }>;
 }
 
 export class TrailCard {
@@ -48,6 +62,7 @@ export class TrailCard {
     card.addEventListener('click', () => {
       if (this.clickHandler) {
         this.clickHandler(this.trail);
+        this.highlightOnMap(this.trail);
       }
     });
 
@@ -88,5 +103,18 @@ export class TrailCard {
 
   public isCardSelected(): boolean {
     return this.isSelected;
+  }
+
+  private highlightOnMap(trail: Trail) {
+    const mapSvg = document.getElementById('map-svg') as HTMLObjectElement;
+    const paths = mapSvg.contentDocument?.querySelector('svg')?.querySelectorAll('path.' + trail.id);
+    for (const path of paths!) {
+      var pathStyle = path?.getAttribute('style')
+        ?.replace('rgb(255, 255, 255);', 'rgb(66,133,244);')
+        .replace('rgb(255,255,255);', 'rgb(66,133,244);')
+        .replace('stroke-opacity:0.4;', 'stroke-opacity:1;')
+        .replace('stroke-opacity: 0.4;', 'stroke-opacity:1;');
+      path?.setAttribute('style', pathStyle!);
+    }
   }
 } 
