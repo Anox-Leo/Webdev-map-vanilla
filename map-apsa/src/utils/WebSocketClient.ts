@@ -19,7 +19,25 @@ const users = [
             "latitude": 160.585938,
             "longitude": 314.890625
         }
-    }
+    },
+    {
+        "id": "user3",
+        "name": "Youcef",
+        "color": "rgb(244,244,66)",
+        "location": {
+            "latitude": 307.804688,
+            "longitude": 416.132812
+        }
+    },
+    {
+        "id": "user4",
+        "name": "Guillaume",
+        "color": "rgb(66,244,66)",
+        "location": {
+            "latitude": 270.585938,
+            "longitude": 685.890625
+        }
+    },
 ];
 
 export class WebSocketClient {

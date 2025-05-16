@@ -63,7 +63,8 @@ export class UserList {
       // newPath.setAttribute('style', `stroke:white;stroke-width:0.4;fill-rule:nonzero;fill:rgb(244,66,244);fill-opacity:1;`);
 
       const path = mapSvg.contentDocument?.querySelector('svg')?.querySelector(`path.${user.id}`);
-      var pathStyle = path?.getAttribute('style')?.replace('display:none;', 'display:initial;');
+      console.log(path);
+      var pathStyle = path?.getAttribute('style')?.replace('display: none;', 'display:initial;').replace('display:none;', 'display:initial;');
       path?.setAttribute('style', pathStyle!);
   }
 
@@ -71,7 +72,7 @@ export class UserList {
       for (const u of ["user1", "user2"]) {
           const mapSvg = document.getElementById('map-svg') as HTMLObjectElement;
           const path = mapSvg.contentDocument?.querySelector('svg')?.querySelector(`path.${u}`);
-          var pathStyle = path?.getAttribute('style')?.replace('display:initial;', 'display:none;');
+          var pathStyle = path?.getAttribute('style')?.replace('display: initial;', 'display:none;').replace('display:initial;', 'display:none;');
           path?.setAttribute('style', pathStyle!);
       }
   } 

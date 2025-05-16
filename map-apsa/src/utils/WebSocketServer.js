@@ -36,7 +36,7 @@ function startWebSocketServer() {
             '\r\n');
 
         let user = "user" + (users.length + 1);
-        if (users.length === 0 || users[0].id === "user2") {
+        if (users.length === 0 || users[0].id !== "user1") {
             user = "user1";
         }
         users.push({id: user, isCurrent: true});
