@@ -1,7 +1,7 @@
 import * as http from 'http';
 import { createHash } from 'crypto';
 
-const localServer = 'ws://10.144.201.66:8080';
+const localServer = 'ws://localhost:8080'; // You can use your local ip address if you want to access it from another local device
 
 const ws = new WebSocket(localServer);
 const users = [];

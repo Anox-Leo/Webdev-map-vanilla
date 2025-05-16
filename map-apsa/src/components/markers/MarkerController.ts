@@ -131,20 +131,19 @@ export class MarkerController {
       e.stopPropagation();
       
       // Récupérer les données du marqueur
-      const markerId = marker.id;
       const title = marker.getAttribute('data-title') || 'Sans titre';
       const description = marker.getAttribute('data-description') || 'Sans description';
       const type = marker.classList.contains('danger') ? MarkerType.DANGER : MarkerType.DEFAULT;
       
       // Afficher le tooltip
-      this.showTooltip(marker as SVGElement, title, description, type);
+      this.showTooltip(title, description, type);
     }
   };
 
   /**
    * Affiche le tooltip avec les informations du marqueur
    */
-  private showTooltip(marker: SVGElement, title: string, description: string, type: MarkerType): void {
+  private showTooltip(title: string, description: string, type: MarkerType): void {
     // Annuler le timer d'auto-fermeture s'il existe
     if (this.tooltipAutoCloseTimer !== null) {
       clearTimeout(this.tooltipAutoCloseTimer);
@@ -187,14 +186,6 @@ export class MarkerController {
     }, 15000);
   }
   
-  /**
-   * Positionne le tooltip par rapport au marqueur
-   * Note: Cette méthode n'est plus utilisée puisque nous utilisons une position fixe,
-   * mais nous la conservons au cas où nous décidions de changer l'implémentation.
-   */
-  private positionTooltip(marker: SVGElement): void {
-    // La position est maintenant gérée par CSS (fixed, bottom-left)
-  }
   
   /**
    * Cache le tooltip actif

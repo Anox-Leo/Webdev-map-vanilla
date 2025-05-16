@@ -41,9 +41,6 @@ export class MapController {
   // Mode d'affichage actuel
   private displayMode: MapDisplayMode = MapDisplayMode.GRABBING;
   
-  // Mode d'interaction en mode plat
-  private flatInteractionMode: FlatInteractionMode = FlatInteractionMode.SELECT;
-
   constructor() {
     // Attendre que le DOM soit complètement chargé
     if (document.readyState === 'loading') {
@@ -270,9 +267,7 @@ export class MapController {
     
     // Fonction pour appliquer l'effet de survol sur un élément
     const applyHoverEffect = (element: Element, isHovered: boolean): void => {
-      // Identifier l'élément
-      const elementId = element.id || element.tagName.toLowerCase() + '-' + Math.random().toString(36).substr(2, 9);
-      
+      // Identifier l'élément      
       if (isHovered) {
         // Vérifier si l'élément a déjà un effet de survol
         const existingHighlightId = element.getAttribute('data-hover-highlight-id');
@@ -303,37 +298,6 @@ export class MapController {
           element.removeAttribute('data-hover-highlight-id');
         }
       }
-    };
-    
-    // Fonction pour appliquer l'effet de sélection sur un élément
-    const applySelectionEffect = (element: Element): void => {
-      // Marquer l'élément comme sélectionné
-      element.setAttribute('data-selected-for-trail', 'true');
-      
-      // Créer un élément de surbrillance pour la sélection
-      const selectionElement = createHighlightElement(element, true);
-      highlightGroup!.appendChild(selectionElement);
-      
-      // Enregistrer l'ID de l'élément de sélection sur l'élément original
-      element.setAttribute('data-selection-highlight-id', selectionElement.id);
-    };
-    
-    // Fonction pour supprimer l'effet de sélection d'un élément
-    const removeSelectionEffect = (element: Element): void => {
-      // Récupérer l'ID de l'élément de sélection
-      const selectionId = element.getAttribute('data-selection-highlight-id');
-      
-      if (selectionId) {
-        // Supprimer l'élément de surbrillance pour la sélection
-        const selectionElement = svgDocument.getElementById(selectionId);
-        if (selectionElement && highlightGroup) {
-          highlightGroup.removeChild(selectionElement);
-        }
-      }
-      
-      // Supprimer le marqueur de sélection
-      element.removeAttribute('data-selected-for-trail');
-      element.removeAttribute('data-selection-highlight-id');
     };
     
     // Fonction pour vérifier si un élément est une aire (avec fill-rule="evenodd")
@@ -847,9 +811,7 @@ export class MapController {
   /**
    * Change le mode d'interaction en mode plat
    */
-  public setFlatInteractionMode(mode: FlatInteractionMode): void {
-    this.flatInteractionMode = mode;
-    
+  public setFlatInteractionMode(mode: FlatInteractionMode): void {    
     // Mettre à jour le curseur et l'interface en fonction du mode
     if (this.mapContainer) {
       // Supprimer les classes existantes
