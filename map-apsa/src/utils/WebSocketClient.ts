@@ -13,7 +13,7 @@ const users = [
     },
     {
         "id": "user2",
-        "name": "Zinou",
+        "name": "Zineddine",
         "color": "rgb(244,66,66)",
         "location": {
             "latitude": 160.585938,

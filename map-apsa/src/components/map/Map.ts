@@ -7,7 +7,7 @@ export class Map {
   private template = `
     <div class="map-container" id="map-container">
       <div class="map-view">
-        <object type="image/svg+xml" data="/assets/map.svg" class="map-svg" id="map-svg" aria-label="Carte de randonnée">
+        <object type="image/svg+xml" data="./assets/map.svg" class="map-svg" id="map-svg">
           Votre navigateur ne prend pas en charge les objets SVG
         </object>
       </div>
