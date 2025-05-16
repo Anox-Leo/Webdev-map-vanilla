@@ -216,6 +216,9 @@ export class Sidebar {
       if (detailsContainer) {
         detailsContainer.appendChild(card.render()); // Ajoute le nouvel indice
       }
+
+      const { latitude, longitude } = trailDetail.gps[index];
+      this.addMarkerToMap(latitude, longitude, `Indice ${index + 1}`);
     };
 
     contentContainer.innerHTML = `

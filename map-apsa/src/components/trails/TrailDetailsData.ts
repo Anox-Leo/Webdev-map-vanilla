@@ -3,6 +3,8 @@ export interface TrailDetail {
     photos: string[];
     descriptions: string[];
     alts: string[];
+    longitude: float[];
+    latitude: float[];
 }
 
 export const trailDetails: TrailDetail[] = [
@@ -26,6 +28,18 @@ export const trailDetails: TrailDetail[] = [
             'Une entrée cachée dans le sol',
             'Un autel',
         ],
+        longitude: [
+            47.291291,
+            47.289134,
+            47.288115,
+            47.288043,
+        ],
+        latitude: [
+            -1.528708,
+            -1.526921,
+            -1.523046,
+            -1.529581,
+        ],
     },
     {
         id: 'trail-2',
@@ -46,6 +60,18 @@ export const trailDetails: TrailDetail[] = [
             'deuxième alt',
             'troisième alt',
             'quatrième alt',
+        ],
+        longitude: [
+            47.291291,
+            47.289134,
+            47.288115,
+            47.288043,
+        ],
+        latitude: [
+            -1.528708,
+            -1.526921,
+            -1.523046,
+            -1.529581,
         ],
     },
 ];
