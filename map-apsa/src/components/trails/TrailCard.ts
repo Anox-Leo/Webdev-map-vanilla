@@ -5,6 +5,20 @@ export interface Trail {
   distance: number;
   type: string;
   image: string;
+  svgElements?: Array<{
+    id: string;
+    type: string;
+    order: number;
+    d?: string;           // Pour les chemins (path)
+    points?: string;      // Pour les polygones/polylines
+    cx?: string | number; // Pour les cercles (centre x)
+    cy?: string | number; // Pour les cercles (centre y)
+    r?: string | number;  // Pour les cercles (rayon)
+    x?: string | number;  // Pour les rectangles (position x)
+    y?: string | number;  // Pour les rectangles (position y)
+    width?: string | number; // Pour les rectangles (largeur)
+    height?: string | number; // Pour les rectangles (hauteur)
+  }>;
 }
 
 export class TrailCard {
