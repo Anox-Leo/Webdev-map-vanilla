@@ -340,93 +340,7 @@
   pointer-events: auto;
 }
 
-/* Selector de mode */
-.map-mode-selector {
-  position: absolute;
-  left: 20px;
-  top: 135px;
-  background-color: white;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  padding: 10px;
-  z-index: 10;
-}
-
-.mode-title {
-  font-weight: bold;
-  margin-bottom: 5px;
-  font-size: 14px;
-}
-
-.mode-options {
-  display: flex;
-  gap: 5px;
-}
-
-/* Style pour les anciens boutons de mode */
-.map-mode-selector .mode-btn {
-  background-color: #f0f0f0;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  padding: 5px 10px;
-  cursor: pointer;
-  font-size: 13px;
-  transition: all 0.2s ease;
-}
-
-.map-mode-selector .mode-btn:hover {
-  background-color: #e0e0e0;
-}
-
-.map-mode-selector .mode-btn.active {
-  background-color: #3366cc;
-  color: white;
-  border-color: #2255aa;
-}
-
-/* Selector d'interaction en mode plat */
-.map-interaction-selector {
-  position: absolute;
-  left: 20px;
-  top: 190px;
-  background-color: white;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  padding: 10px;
-  z-index: 100;
-}
-
-.interaction-title {
-  font-weight: bold;
-  margin-bottom: 5px;
-  font-size: 14px;
-}
-
-.interaction-options {
-  display: flex;
-  gap: 5px;
-}
-
-.interaction-btn {
-  background-color: #f0f0f0;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  padding: 5px 10px;
-  cursor: pointer;
-  font-size: 13px;
-  transition: all 0.2s ease;
-}
-
-.interaction-btn:hover {
-  background-color: #e0e0e0;
-}
-
-.interaction-btn.active {
-  background-color: #3366cc;
-  color: white;
-  border-color: #2255aa;
-}
-
+/* Mode création de parcours */
 .mode-trail-creation .map-view {
   cursor: crosshair;
 }
@@ -542,6 +456,93 @@
   background-color: #3366CC; /* Couleur bleue pour distinguer de la couleur verte du mode interaction */
 }
 
+/* Selector de mode */
+.map-mode-selector {
+  position: absolute;
+  left: 20px;
+  top: 135px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  z-index: 10;
+}
+
+.mode-title {
+  font-weight: bold;
+  margin-bottom: 5px;
+  font-size: 14px;
+}
+
+.mode-options {
+  display: flex;
+  gap: 5px;
+}
+
+/* Style pour les anciens boutons de mode */
+.map-mode-selector .mode-btn {
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 5px 10px;
+  cursor: pointer;
+  font-size: 13px;
+  transition: all 0.2s ease;
+}
+
+.map-mode-selector .mode-btn:hover {
+  background-color: #e0e0e0;
+}
+
+.map-mode-selector .mode-btn.active {
+  background-color: #3366cc;
+  color: white;
+  border-color: #2255aa;
+}
+
+/* Selector d'interaction en mode plat */
+.map-interaction-selector {
+  position: absolute;
+  left: 20px;
+  top: 190px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  z-index: 100;
+}
+
+.interaction-title {
+  font-weight: bold;
+  margin-bottom: 5px;
+  font-size: 14px;
+}
+
+.interaction-options {
+  display: flex;
+  gap: 5px;
+}
+
+.interaction-btn {
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 5px 10px;
+  cursor: pointer;
+  font-size: 13px;
+  transition: all 0.2s ease;
+}
+
+.interaction-btn:hover {
+  background-color: #e0e0e0;
+}
+
+.interaction-btn.active {
+  background-color: #3366cc;
+  color: white;
+  border-color: #2255aa;
+}
+
 /* Styles pour la boussole désactivée */
 .compass-rotator.disabled {
   opacity: 0.5;
@@ -616,66 +617,66 @@
   .map-mode-switcher .mode-btn span {
     display: none;
   }
+}
 
-    /* Sélecteur de fonctionnalité de parcours */
-  .trail-interaction-selector {
-    position: absolute;
-    left: 20px;
-    top: 245px;
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    padding: 10px;
-    z-index: 100;
-    display: none; /* Caché par défaut, affiché en mode plat */
-  }
+/* Sélecteur de fonctionnalité de parcours */
+.trail-interaction-selector {
+  position: absolute;
+  left: 20px;
+  top: 245px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  z-index: 100;
+  display: none; /* Caché par défaut, affiché en mode plat */
+}
 
-  .mode-flat .trail-interaction-selector {
-    display: block;
-  }
+.mode-flat .trail-interaction-selector {
+  display: block;
+}
 
-  .trail-interaction-title {
-    font-weight: bold;
-    margin-bottom: 5px;
-    font-size: 14px;
-  }
+.trail-interaction-title {
+  font-weight: bold;
+  margin-bottom: 5px;
+  font-size: 14px;
+}
 
-  .trail-interaction-options {
-    display: flex;
-    gap: 5px;
-  }
+.trail-interaction-options {
+  display: flex;
+  gap: 5px;
+}
 
-  .trail-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #f0f0f0;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    padding: 5px 10px;
-    cursor: pointer;
-    font-size: 13px;
-    transition: all 0.2s ease;
-  }
+.trail-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 5px 10px;
+  cursor: pointer;
+  font-size: 13px;
+  transition: all 0.2s ease;
+}
 
-  .trail-btn img {
-    width: 16px;
-    height: 16px;
-    margin-right: 5px;
-    filter: brightness(0.6);
-  }
+.trail-btn img {
+  width: 16px;
+  height: 16px;
+  margin-right: 5px;
+  filter: brightness(0.6);
+}
 
-  .trail-btn:hover {
-    background-color: #e0e0e0;
-  }
+.trail-btn:hover {
+  background-color: #e0e0e0;
+}
 
-  .trail-btn.active {
-    background-color: #3366cc;
-    color: white;
-    border-color: #2255aa;
-  }
+.trail-btn.active {
+  background-color: #3366cc;
+  color: white;
+  border-color: #2255aa;
+}
 
-  .trail-btn.active img {
-    filter: brightness(5);
-  }
+.trail-btn.active img {
+  filter: brightness(5);
 } 
