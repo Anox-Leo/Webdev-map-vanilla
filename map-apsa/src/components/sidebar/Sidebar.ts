@@ -36,7 +36,8 @@ export class Sidebar {
   private isCollapsed: boolean = false;
   private trailsList: TrailsList | null = null;
   private _pendingTrailEditorController: any | null = null;
-
+  private selectedTrail: Trail | null = null;
+  
   constructor(container: HTMLElement) {
     this.container = container;
     this.render();
@@ -264,6 +265,7 @@ export class Sidebar {
     if (backButton) {
       backButton.addEventListener('click', () => {
         this.resetContent();
+        this.hideTrailOnMap();
       });
     }
   }
@@ -271,6 +273,20 @@ export class Sidebar {
   private handleTrailSelection(trail: Trail): void {
     console.log(`Parcours sélectionné: ${trail.name}`);
     this.showTrailDetails(trail.id);
+    this.selectedTrail = trail;
+  }
+
+  private hideTrailOnMap(): void {
+    const mapSvg = document.getElementById('map-svg') as HTMLObjectElement;
+    const paths = mapSvg.contentDocument?.querySelector('svg')?.querySelectorAll('path.' + this.selectedTrail?.id!);
+
+    for (const path of paths!) {
+      var pathStyle = path?.getAttribute('style')?.replace('rgb(66,133,244);', 'rgb(255,255,255);');
+      if (path?.getAttribute('class')?.includes('ch')) {
+        pathStyle = path?.getAttribute('style')?.replace('stroke-opacity:1;', 'stroke-opacity:0.4;').replace('rgb(66,133,244);', 'rgb(255,255,255);');
+      }
+      path?.setAttribute('style', pathStyle!);
+    }
   }
 
   /**

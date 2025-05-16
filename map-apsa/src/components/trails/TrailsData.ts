@@ -4,44 +4,20 @@ import { Trail } from './TrailCard';
 export const mockTrails: Trail[] = [
   {
     id: 'trail-1',
-    name: 'Sentier des Cascades',
-    difficulty: 2,
+    name: 'Découvrir la Chantrerie',
+    difficulty: 3,
     distance: 8.5,
     type: 'Randonnée pédestre',
     image: '/assets/images/trail-waterfall.jpg'
   },
   {
     id: 'trail-2',
-    name: 'Circuit des Lacs',
-    difficulty: 3,
-    distance: 12.3,
-    type: 'Randonnée sportive',
+    name: "Le senstier des mines",
+    difficulty: 1,
+    distance: 1.2,
+    type: 'Promenade',
     image: '/assets/images/trail-lake.jpg'
   },
-  {
-    id: 'trail-3',
-    name: 'Chemin des Vignes',
-    difficulty: 1,
-    distance: 5.2,
-    type: 'Balade tranquille',
-    image: '/assets/images/trail-vineyard.jpg'
-  },
-  {
-    id: 'trail-4',
-    name: 'Sentier des Crêtes',
-    difficulty: 3,
-    distance: 15.7,
-    type: 'Trail running',
-    image: '/assets/images/trail-mountain.jpg'
-  },
-  {
-    id: 'trail-5',
-    name: 'Boucle du Vieux Moulin',
-    difficulty: 1,
-    distance: 3.8,
-    type: 'Promenade familiale',
-    image: '/assets/images/trail-old-mill.jpg'
-  }
 ];
 
 // Fonction pour obtenir les parcours, en combinant les parcours prédéfinis et ceux stockés dans localStorage
