@@ -35,6 +35,7 @@ export class Sidebar {
   private toggleButtonElement: HTMLElement | null = null;
   private isCollapsed: boolean = false;
   private trailsList: TrailsList | null = null;
+  private _pendingTrailEditorController: any | null = null;
 
   constructor(container: HTMLElement) {
     this.container = container;
@@ -42,9 +43,23 @@ export class Sidebar {
     this.setupEventListeners();
     this.restoreCollapseState();
     this.loadTrails();
-    this.trailsList?.setTrailSelectHandler((trail: Trail) => {
-      this.handleTrailSelection(trail);
+    
+    // Écouter l'événement d'initialisation de la carte
+    document.addEventListener('mapInitialized', (e: Event) => {
+      const customEvent = e as CustomEvent;
+      if (customEvent.detail && customEvent.detail.mapInstance) {
+        this.connectToMapController(customEvent.detail.mapInstance);
+      }
     });
+    
+    // Ajouter un écouteur pour la création de nouveaux parcours
+    document.addEventListener('trailCreationFinished', ((e: Event) => {
+      const customEvent = e as CustomEvent;
+      console.log('Événement trailCreationFinished reçu:', customEvent.detail);
+      
+      // Recharger les parcours pour inclure le nouveau
+      this.loadTrails();
+    }) as EventListener);
   }
 
   private render(): void {
@@ -186,6 +201,12 @@ export class Sidebar {
       
       this.trailsList = new TrailsList(contentContainer, trails);
       
+      // Si un contrôleur de parcours est en attente, le connecter maintenant
+      if (this._pendingTrailEditorController) {
+        this.trailsList.setTrailEditorController(this._pendingTrailEditorController);
+        this._pendingTrailEditorController = null;
+      }
+      
       this.trailsList.setTrailSelectHandler((trail: Trail) => {
         this.handleTrailSelection(trail);
       });
@@ -250,5 +271,27 @@ export class Sidebar {
   private handleTrailSelection(trail: Trail): void {
     console.log(`Parcours sélectionné: ${trail.name}`);
     this.showTrailDetails(trail.id);
+  }
+
+  /**
+   * Connecte cette sidebar au contrôleur de carte
+   */
+  private connectToMapController(mapInstance: any): void {
+    if (!mapInstance || !mapInstance.getMapController) return;
+    
+    const mapController = mapInstance.getMapController();
+    if (!mapController) return;
+    
+    const trailEditorController = mapController.getTrailEditorController();
+    if (!trailEditorController) return;
+    
+    // Connecter le contrôleur d'édition de parcours à la liste des parcours
+    if (this.trailsList) {
+      this.trailsList.setTrailEditorController(trailEditorController);
+    } else {
+      // Si la liste n'est pas encore créée, on garde une référence au contrôleur
+      // pour le connecter plus tard
+      this._pendingTrailEditorController = trailEditorController;
+    }
   }
 } 

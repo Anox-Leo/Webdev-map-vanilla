@@ -340,6 +340,122 @@
   pointer-events: auto;
 }
 
+/* Mode création de parcours */
+.mode-trail-creation .map-view {
+  cursor: crosshair;
+}
+
+.mode-trail-creation .map-svg {
+  pointer-events: auto !important;
+}
+
+.mode-trail-creation path:not([class*="background"]):not([id*="background"]):not([id*="container"]),
+.mode-trail-creation rect:not([class*="background"]):not([id*="background"]):not([id*="container"]),
+.mode-trail-creation circle:not([class*="background"]):not([id*="background"]):not([id*="container"]),
+.mode-trail-creation polygon:not([class*="background"]):not([id*="background"]):not([id*="container"]),
+.mode-trail-creation polyline:not([class*="background"]):not([id*="background"]):not([id*="container"]) {
+  pointer-events: auto !important;
+  cursor: pointer;
+}
+
+/* Désactiver explicitement les interactions pour les éléments de fond */
+.mode-trail-creation [id*="background"],
+.mode-trail-creation [class*="background"],
+.mode-trail-creation [id*="container"],
+.mode-trail-creation [class*="container"],
+.mode-trail-creation [id*="fond"],
+.mode-trail-creation [class*="fond"],
+.mode-trail-creation svg,
+.mode-trail-creation > g:not([id]) {
+  pointer-events: none !important;
+  cursor: default !important;
+}
+
+/* Styles pour la couche de surbrillance */
+.highlight-layer {
+  pointer-events: none;
+  position: relative;
+  z-index: 100;
+}
+
+/* Effets de surbrillance directement appliqués aux éléments dupliqués */
+.highlight-element {
+  stroke: #3366CC;
+  stroke-width: 3px;
+  fill: none !important;
+  filter: drop-shadow(0 0 4px rgba(51, 102, 204, 0.8));
+  pointer-events: none;
+  opacity: 0.9;
+  transition: all 0.2s ease;
+  z-index: 200;
+  animation: pulse-highlight 1.5s infinite ease-in-out;
+}
+
+/* Effets de surbrillance pour les parcours */
+.trail-highlight-element {
+  stroke: #FF5722;
+  stroke-width: 4px;
+  fill: none !important;
+  filter: drop-shadow(0 0 5px rgba(255, 87, 34, 0.8));
+  pointer-events: none;
+  opacity: 0.9;
+  transition: all 0.2s ease;
+  z-index: 300;
+  animation: pulse-trail-highlight 2s infinite ease-in-out;
+}
+
+@keyframes pulse-highlight {
+  0% { stroke-width: 3px; }
+  50% { stroke-width: 4px; }
+  100% { stroke-width: 3px; }
+}
+
+@keyframes pulse-trail-highlight {
+  0% { stroke-width: 4px; opacity: 0.7; }
+  50% { stroke-width: 5px; opacity: 0.9; }
+  100% { stroke-width: 4px; opacity: 0.7; }
+}
+
+.selected-element {
+  stroke: #FF5722;
+  stroke-width: 3px;
+  stroke-dasharray: 5,3;
+  fill: none !important;
+  pointer-events: none;
+  opacity: 1;
+  z-index: 150;
+  filter: drop-shadow(0 0 3px rgba(255, 87, 34, 0.7));
+}
+
+/* Pas d'effet de survol en mode interaction */
+.mode-flat path:hover,
+.mode-flat rect:hover,
+.mode-flat circle:hover,
+.mode-flat polygon:hover,
+.mode-flat polyline:hover {
+  /* Aucun effet de survol */
+}
+
+/* Toujours désactiver les interactions avec les éléments qui ont fill-rule="evenodd" */
+[fill-rule="evenodd"],
+[style*="fill-rule:evenodd"],
+[style*="fill-rule: evenodd"] {
+  pointer-events: none !important;
+}
+
+/* Styles pour le bouton de création de parcours */
+.mode-btn.mode-trail-creation .mode-icon {
+  filter: invert(32%) sepia(16%) saturate(3207%) hue-rotate(175deg) brightness(93%) contrast(93%);
+}
+
+.mode-btn.mode-trail-creation.active .mode-icon {
+  filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(93deg) brightness(103%) contrast(103%); /* Blanc */
+}
+
+.mode-btn.mode-trail-creation.active {
+  background-color: #3366CC; /* Couleur bleue pour distinguer de la couleur verte du mode interaction */
+}
+
 /* Selector de mode */
 .map-mode-selector {
   position: absolute;
@@ -427,15 +543,6 @@
   border-color: #2255aa;
 }
 
-/* Curseurs en fonction du mode d'interaction */
-.mode-flat.interaction-select .map-view {
-  cursor: pointer;
-}
-
-.mode-flat.interaction-add_point .map-view {
-  cursor: crosshair;
-}
-
 /* Styles pour la boussole désactivée */
 .compass-rotator.disabled {
   opacity: 0.5;
@@ -510,4 +617,66 @@
   .map-mode-switcher .mode-btn span {
     display: none;
   }
+}
+
+/* Sélecteur de fonctionnalité de parcours */
+.trail-interaction-selector {
+  position: absolute;
+  left: 20px;
+  top: 245px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  z-index: 100;
+  display: none; /* Caché par défaut, affiché en mode plat */
+}
+
+.mode-flat .trail-interaction-selector {
+  display: block;
+}
+
+.trail-interaction-title {
+  font-weight: bold;
+  margin-bottom: 5px;
+  font-size: 14px;
+}
+
+.trail-interaction-options {
+  display: flex;
+  gap: 5px;
+}
+
+.trail-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 5px 10px;
+  cursor: pointer;
+  font-size: 13px;
+  transition: all 0.2s ease;
+}
+
+.trail-btn img {
+  width: 16px;
+  height: 16px;
+  margin-right: 5px;
+  filter: brightness(0.6);
+}
+
+.trail-btn:hover {
+  background-color: #e0e0e0;
+}
+
+.trail-btn.active {
+  background-color: #3366cc;
+  color: white;
+  border-color: #2255aa;
+}
+
+.trail-btn.active img {
+  filter: brightness(5);
 } 

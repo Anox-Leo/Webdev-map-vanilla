@@ -1,4 +1,5 @@
 import './style.css'
+import './components/trails/TrailEditor.css'
 import { Map } from './components/map/Map'
 import { Sidebar } from './components/sidebar/Sidebar'
 import { DomUtils } from './utils/DomUtils'

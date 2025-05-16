@@ -13,7 +13,7 @@ export class DragController {
   
   // Mode d'affichage actuel
   private currentMode: MapDisplayMode = MapDisplayMode.GRABBING;
-  
+
   // Indique si le contrôleur est activé
   private enabled: boolean = true;
 
