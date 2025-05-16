@@ -18,6 +18,7 @@ You can also start ./map-apsa/dist/index.html directly in your browser, but the 
     npm run dev
     ```
 ## Start WebSocket server
+1. Start the server
     ```bash
     cd map-apsa/src/utils/
     node WebSocketServer.js
