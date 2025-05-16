@@ -54,6 +54,14 @@ export class UserList {
 
   private displayUserOnMap(user: User): void {
       const mapSvg = document.getElementById('map-svg') as HTMLObjectElement;
+      
+      // // Add new <path> element at the end of the SVG
+      // const svg = mapSvg.contentDocument?.querySelector('svg') as Html
+      // const newPath = svg?.createElementNS('http://www.w3.org/2000/svg', 'path');
+      // newPath.setAttribute('class', 'user3');
+      // newPath.setAttribute('d', 'M 0 0 L 10 10');
+      // newPath.setAttribute('style', `stroke:white;stroke-width:0.4;fill-rule:nonzero;fill:rgb(244,66,244);fill-opacity:1;`);
+
       const path = mapSvg.contentDocument?.querySelector('svg')?.querySelector(`path.${user.id}`);
       var pathStyle = path?.getAttribute('style')?.replace('display:none;', 'display:initial;');
       path?.setAttribute('style', pathStyle!);

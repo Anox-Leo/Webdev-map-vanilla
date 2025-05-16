@@ -35,29 +35,24 @@ function startWebSocketServer() {
             "Sec-WebSocket-Accept: ".concat(acceptKey, "\r\n") +
             '\r\n');
 
-        let user = "";
-        if (users.length === 0) {
+        let user = "user" + (users.length + 1);
+        if (users.length === 0 || users[0].id === "user2") {
             user = "user1";
-            users.push({id: "user1", isCurrent: true});
-        } else {
-            user = "user2";
-            users.push({id: "user2", isCurrent: true});
         }
+        users.push({id: user, isCurrent: true});
         createAndSendMessage(socket, users);
 
         socket.on('data', function (buffer) {
             try {
                 var message = decodeWebSocketFrame(buffer);
-                console.log(message);
-                if (message == "user1 disconnected") {
-                    users.splice(users.indexOf(user), 1);
-                } else if (message == "user2 disconnected") {
-                    users.splice(users.indexOf(user), 1);
-                } else if (message == "status") {
+                if (message == "status") {
                     for (let i = 0; i < users.length; i++) {
                         users[i].isCurrent = false;
                     }
                     createAndSendMessage(socket, users);
+                } else if (message.includes("disconnected")) {
+                    var user = message.split(" disconnected")[0];
+                    users.splice(users.indexOf(users.find(u => u.id == user)), 1);
                 }
             }
             catch (error) {
@@ -72,7 +67,6 @@ function startWebSocketServer() {
 
     function createAndSendMessage(socket, users) {
         var message = JSON.stringify(users); 
-        console.log("Message envoyé : " + message);
         var frame = Buffer.alloc(message.length + 2);
         frame[0] = 0x81;
         frame[1] = message?.length;
