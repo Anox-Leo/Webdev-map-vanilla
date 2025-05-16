@@ -1,10 +1,13 @@
 import './Sidebar.css';
 import '../trails/Trails.css';
-import { TrailsList } from '../trails/TrailsList';
-import { getTrails } from '../trails/TrailsData';
-import { Trail } from '../trails/TrailCard';
-import { trailDetails } from '../trails/TrailDetailsData';
-import { TrailStepCard } from '../trails/TrailStepCard';
+import {TrailsList} from '../trails/TrailsList';
+import {getTrails} from '../trails/TrailsData';
+import {Trail} from '../trails/TrailCard';
+import {trailDetails} from '../trails/TrailDetailsData';
+import {TrailStepCard} from '../trails/TrailStepCard';
+import { NotificationController } from '../map/controllers';
+import { MarkerController } from '../markers/MarkerController';
+import { MarkerType } from '../markers/MarkerTypes';
 
 export class Sidebar {
   private container: HTMLElement;
@@ -35,6 +38,13 @@ export class Sidebar {
   private toggleButtonElement: HTMLElement | null = null;
   private isCollapsed: boolean = false;
   private trailsList: TrailsList | null = null;
+  private notificationController!: NotificationController;
+  private markerController!: MarkerController;
+
+  // Éléments DOM
+  private mapContainer: HTMLElement | null = null;
+  private mapView: HTMLElement | null = null;
+  private mapSvg: HTMLObjectElement | null = null;
 
   constructor(container: HTMLElement) {
     this.container = container;
@@ -45,6 +55,21 @@ export class Sidebar {
     this.trailsList?.setTrailSelectHandler((trail: Trail) => {
       this.handleTrailSelection(trail);
     });
+
+    // Récupérer les références aux éléments du DOM
+    this.mapContainer = document.getElementById('map-container');
+    this.mapView = document.querySelector('.map-view') as HTMLElement;
+    this.mapSvg = document.getElementById('map-svg') as HTMLObjectElement;
+
+    // Vérifier que tous les éléments sont présents
+    if (!this.mapContainer || !this.mapView || !this.mapSvg) {
+      // Les éléments requis n'ont pas été trouvés
+      return;
+    }
+
+    this.notificationController = new NotificationController(this.mapContainer);
+    this.markerController = new MarkerController(this.mapSvg, this.notificationController);
+
   }
 
   private render(): void {
@@ -217,8 +242,19 @@ export class Sidebar {
         detailsContainer.appendChild(card.render()); // Ajoute le nouvel indice
       }
 
-      const { latitude, longitude } = trailDetail.gps[index];
-      this.addMarkerToMap(latitude, longitude, `Indice ${index + 1}`);
+      const latitude = trailDetail.latitude[index];
+      const longitude = trailDetail.longitude[index];
+      console.log(this.markerController);
+      if(this.markerController){
+        this.markerController.createMarker({
+          id: `user-point-${index}`,
+          x: longitude,
+          y: latitude,
+          type: MarkerType.DEFAULT,
+          title: `Indice ${index + 1}`,
+          description: trailDetail.descriptions[index],
+        });
+      }
     };
 
     contentContainer.innerHTML = `

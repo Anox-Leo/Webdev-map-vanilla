@@ -3,8 +3,8 @@ export interface TrailDetail {
     photos: string[];
     descriptions: string[];
     alts: string[];
-    longitude: float[];
-    latitude: float[];
+    longitude: number[];
+    latitude: number[];
 }
 
 export const trailDetails: TrailDetail[] = [

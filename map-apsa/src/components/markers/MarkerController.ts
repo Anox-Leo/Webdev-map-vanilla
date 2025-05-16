@@ -550,7 +550,7 @@ export class MarkerController {
   /**
    * Crée un élément de marqueur SVG
    */
-  private createMarker(options: MarkerOptions): SVGGElement {
+  public createMarker(options: MarkerOptions): SVGGElement {
     const { id, x, y, type, title, description, color } = options;
     
     // Créer un groupe pour l'icône de localisation
