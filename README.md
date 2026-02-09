@@ -7,7 +7,7 @@ You can also start ./map-apsa/dist/index.html directly in your browser, but the 
 1. Clone the repository:
     ```bash
     git clone
-    cd webdev-map
+    cd webdev-map/map-apsa
     ```
 2. Install the dependencies:
     ```bash
