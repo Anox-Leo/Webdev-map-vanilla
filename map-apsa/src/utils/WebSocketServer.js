@@ -13,8 +13,8 @@ let socketIdCounter = 0;
 // Données utilisateurs prédéfinis
 const USER_DATA = {
   user1: { name: "Léo", color: "rgb(66,133,244)" },
-  user2: { name: "Zineddine", color: "rgb(244,66,66)" },
-  user3: { name: "Alexis", color: "rgb(244,244,66)" },
+  user2: { name: "Alexis", color: "rgb(244,66,66)" },
+  user3: { name: "Louis", color: "rgb(244,244,66)" },
 };
 
 console.log("Démarrage du serveur WebSocket...");

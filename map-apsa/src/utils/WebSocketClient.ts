@@ -12,13 +12,13 @@ const PREDEFINED_USERS = [
   },
   {
     id: "user2",
-    name: "Zineddine",
+    name: "Alexis",
     color: "rgb(244,66,66)",
     position: { x: 160.585938, y: 314.890625 },
   },
   {
     id: "user3",
-    name: "Alexis",
+    name: "Louis",
     color: "rgb(244,244,66)",
     position: { x: 307.804688, y: 416.132812 },
   },
